@@ -1,0 +1,18 @@
+project/
+│
+├── config/
+│   └── db.js              # MongoDB connection
+├── controllers/
+│   └── userController.js   # Business logic for user-related operations
+├── middleware/
+│   └── auth.js             # JWT token and role verification
+├── models/
+│   └── userModel.js        # MongoDB collection schema (if Mongoose) or helpers for interacting with the collection
+├── routes/
+│   └── userRoutes.js       # User-related routes
+├── services/
+│   └── userService.js      # Business logic for interacting with the database
+├── utils/
+│   └── helpers.js          # Utility functions (e.g., formatting, validation, etc.)
+├── index.js                # Main entry point
+└── .env                    # Environment variables
