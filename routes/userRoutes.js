@@ -15,7 +15,7 @@ router.get('/logout', logout);
 router.post('/create-payment-intent', verifyToken, createPaymentIntent);
 router.put('/user', updateUserProfile);
 router.get('/user/:email', getUser);
-router.get('/users', verifyToken, getAllUsers);
+router.get('/users', getAllUsers);
 router.patch('/users/update/:email', verifyToken, updateUserProfile);
 
 module.exports = router;
