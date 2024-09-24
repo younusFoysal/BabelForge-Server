@@ -6,6 +6,7 @@ const getAllTasks = async (req, res) => {
     const db = req.app.locals.db;
     const tasksCollection = getTasksCollection(db);
     const tasks = await tasksCollection.find().toArray();
+    //console.log(tasks)
     res.send(tasks);
 };
 

@@ -7,12 +7,12 @@ const { getAllTasks, addTask, updateTask, deleteTask } = require('../controllers
 router.get('/tasks', getAllTasks);
 
 // Add a new task POST /api/tasks/add
-router.post('/tasks/add', verifyToken, addTask);
+router.post('/tasks/add', addTask);
 
 // Update a task PATCH /api/tasks/update/:id
-router.patch('/tasks/update/:id', verifyToken, updateTask);
+router.patch('/tasks/update/:id', updateTask);
 
 // Delete a task DELETE /api/tasks/delete/:id
-router.delete('/tasks/delete/:id', verifyToken, deleteTask);
+router.delete('/tasks/delete/:id', deleteTask);
 
 module.exports = router;
