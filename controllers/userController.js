@@ -32,6 +32,21 @@ const createPaymentIntent = async (req, res) => {
     res.send({ clientSecret: client_secret });
 };
 
+const addUser = async (req, res) => {
+    const db = req.app.locals.db;
+    const user = req.body;
+
+    // Check if user already exists
+    const existingUser = await findUserByEmail(db, user.email);
+    if (existingUser) {
+        return res.status(400).send({ message: 'User already exists' });
+    }
+
+    // Add new user to the database
+    const result = await updateUser(db, user); // This will insert or update the user using upsert
+    res.status(201).send(result);
+};
+
 const updateUserProfile = async (req, res) => {
     const db = req.app.locals.db;
     const user = req.body;
@@ -52,4 +67,4 @@ const getAllUsers = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { createJwtToken, logout, createPaymentIntent, updateUserProfile, getUser, getAllUsers };
+module.exports = { addUser, createJwtToken, logout, createPaymentIntent, updateUserProfile, getUser, getAllUsers };
