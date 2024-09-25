@@ -5,6 +5,7 @@ const {
     createJwtToken,
     logout,
     createPaymentIntent,
+    addUser,
     updateUserProfile,
     getUser,
     getAllUsers
@@ -13,6 +14,7 @@ const {
 router.post('/jwt', createJwtToken);
 router.get('/logout', logout);
 router.post('/create-payment-intent', verifyToken, createPaymentIntent);
+router.post('/users/add', addUser);
 router.put('/user', updateUserProfile);
 router.get('/user/:email', getUser);
 router.get('/users', getAllUsers);
