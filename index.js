@@ -4,8 +4,8 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-const taskRoutes = require('./routes/taskRoutes');
-
+const taskRoutes = require("./routes/taskRoutes");
+const memberRoutes = require("/routes/memberRoutes");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -15,6 +15,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:3000",
+    "https://bable-next.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -30,7 +31,8 @@ connectToDatabase()
     console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
-    app.use('/task', taskRoutes);
+    app.use("/task", taskRoutes);
+    app.use("/member", memberRoutes);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
