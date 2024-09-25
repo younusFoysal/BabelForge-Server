@@ -18,6 +18,6 @@ router.post('/users/add', addUser);
 router.put('/user', updateUserProfile);
 router.get('/user/:email', getUser);
 router.get('/users', getAllUsers);
-router.patch('/users/update/:email', verifyToken, updateUserProfile);
+router.patch('/users/update/:email', updateUserProfile);
 
 module.exports = router;

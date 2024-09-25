@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const createJwtToken = (req, res) => {
   const user = req.body;
   const token = generateJwtToken(user);
+  console.log(token)
   res
     .cookie("token", token, {
       httpOnly: true,
