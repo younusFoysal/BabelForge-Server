@@ -4,10 +4,12 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Middleware and CORS setup
 const corsOptions = {
   origin: [
     "http://localhost:5173",
@@ -17,6 +19,7 @@ const corsOptions = {
   credentials: true,
   optionSuccessStatus: 200,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
@@ -27,6 +30,7 @@ connectToDatabase()
     console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
+    app.use('/task', taskRoutes);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
