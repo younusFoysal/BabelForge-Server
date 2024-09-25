@@ -1,6 +1,6 @@
 // controllers/taskController.js
 const { getTasksCollection } = require('../models/taskModel');
-const {ObjectId} = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 // Get all tasks
 const getAllTasks = async (req, res) => {
