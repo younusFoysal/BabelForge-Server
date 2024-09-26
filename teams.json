@@ -1,0 +1,52 @@
+[
+    {
+        "id": "1",
+        "name": "Alpha Team",
+        "coverImage": "https://example.com/alpha_team_cover.jpg",
+        "description": "Alpha Team focuses on project management and development.",
+        "members": [
+            "alice@example.com",
+            "bob@example.com",
+            "charlie@example.com"
+        ],
+        "links": [
+            {
+                "name": "GitHub",
+                "url": "https://github.com/alpha_team"
+            },
+            {
+                "name": "Website",
+                "url": "https://alphateam.com"
+            },
+            {
+                "name": "LinkedIn",
+                "url": "https://linkedin.com/company/alpha_team"
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "name": "Beta Team",
+        "coverImage": "https://example.com/beta_team_cover.jpg",
+        "description": "Beta Team is dedicated to research and innovation.",
+        "members": [
+            "dave@example.com",
+            "eve@example.com",
+            "frank@example.com"
+        ],
+        "links": [
+            {
+                "name": "GitHub",
+                "url": "https://github.com/beta_team"
+            },
+            {
+                "name": "Website",
+                "url": "https://betateam.com"
+            },
+            {
+                "name": "LinkedIn",
+                "url": "https://linkedin.com/company/beta_team"
+            }
+        ]
+    }
+]
