@@ -40,7 +40,7 @@ connectToDatabase()
     });
 
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Babel Server is running on port ${port}`);
     });
   })
   .catch((err) => console.error("Error connecting to MongoDB", err));
