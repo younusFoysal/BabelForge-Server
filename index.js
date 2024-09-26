@@ -5,6 +5,7 @@ require("dotenv").config();
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,7 +16,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:3000",
-    "https://bable-next.vercel.app",
+    "https://babel-forge.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
