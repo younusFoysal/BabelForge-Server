@@ -4,9 +4,8 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
-const taskRoutes = require('./routes/taskRoutes');
-const teamRoutes = require('./routes/teamRoutes');
-
+const taskRoutes = require("./routes/taskRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +16,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:3000",
-    "https://babel-forge.vercel.app"
+    "https://babel-forge.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -33,8 +32,8 @@ connectToDatabase()
     console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
-    app.use('/task', taskRoutes);
-    app.use('/api', teamRoutes);
+    app.use("/task", taskRoutes);
+    app.use("/api", teamRoutes);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
