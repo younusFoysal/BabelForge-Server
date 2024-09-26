@@ -32,15 +32,15 @@ connectToDatabase()
     console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
-    app.use("/task", taskRoutes);
-    app.use("/api", teamRoutes);
+    app.use('/task', taskRoutes);
+    app.use('/team', teamRoutes);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
     });
 
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Babel Server is running on port ${port}`);
     });
   })
   .catch((err) => console.error("Error connecting to MongoDB", err));
