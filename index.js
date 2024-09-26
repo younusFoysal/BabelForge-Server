@@ -5,7 +5,7 @@ require("dotenv").config();
 const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
-const memberRoutes = require("/routes/memberRoutes");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -32,7 +32,6 @@ connectToDatabase()
 
     app.use("/api", userRoutes);
     app.use("/task", taskRoutes);
-    app.use("/member", memberRoutes);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
