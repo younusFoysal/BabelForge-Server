@@ -8,7 +8,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const teamRoutes = require('./routes/teamRoutes');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5100;
 
 // Middleware and CORS setup
 const corsOptions = {
