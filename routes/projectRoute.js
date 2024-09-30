@@ -6,12 +6,14 @@ const {
   updateProject,
   getProjects,
   getsingleProject,
-  addTeaminPojects,
+  getMyProjects,
 } = require("../controllers/projectController");
 
 router.post("/projects", addPoject);
 
 router.get("/projects/:id", getsingleProject);
+
+router.get("/projects/my-projects/:email", getMyProjects);
 
 router.delete("/projects/:id", deleteProject);
 

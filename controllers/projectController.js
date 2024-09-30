@@ -6,6 +6,7 @@ const {
   getAllProjects,
   searchProject,
   SingleProject,
+  findMyProjects,
 } = require("../services/projectService");
 
 // add new project
@@ -25,6 +26,18 @@ const getProjects = async (req, res) => {
     result = await searchProject(db, name);
   } else {
     result = await getAllProjects(db);
+  }
+  res.send(result);
+};
+
+// Get all the projects i am in.
+const getMyProjects = async (req, res) => {
+  const db = req.app.locals.db;
+  const email = req.params.email;
+  const query = { pallmembers: email };
+  const result = await findMyProjects(db, query);
+  if (result.length === 0) {
+    res.send({ message: "No Team Found" });
   }
   res.send(result);
 };
@@ -119,4 +132,5 @@ module.exports = {
   getProjects,
   getsingleProject,
   updateProject,
+  getMyProjects,
 };
