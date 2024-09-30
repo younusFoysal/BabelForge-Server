@@ -8,6 +8,11 @@ const addProjects = async (db, project) => {
   return await projectsCollection.insertOne(project);
 };
 
+const findMyProjects = async (db, query) => {
+  const projectCollection = getProjectsCollection(db);
+  return await projectCollection.find(query).toArray();
+}
+
 // delete projects
 const deleteProjects = async (db, projectId) => {
   const projectsCollection = getProjectsCollection(db);
@@ -49,5 +54,6 @@ module.exports = {
   getAllProjects,
   searchProject,
   SingleProject,
-  updateProjects
+  updateProjects,
+  findMyProjects
 };
