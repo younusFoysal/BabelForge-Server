@@ -1,8 +1,8 @@
 const { ObjectId } = require("mongodb");
-const { addProjects, deleteProjects, updateProjects } = require("../services/projectService");
 const {
   addProjects,
   deleteProjects,
+  updateProjects,
   getAllProjects,
   searchProject,
   SingleProject,
