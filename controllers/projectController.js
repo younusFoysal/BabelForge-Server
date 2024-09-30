@@ -1,4 +1,4 @@
-const { addProjects } = require("../services/projectService");
+const { addProjects, deleteProjects } = require("../services/projectService");
 
 const addPoject = async (req, res) => {
   const db = req.app.locals.db;
@@ -7,4 +7,12 @@ const addPoject = async (req, res) => {
   res.send(result);
 };
 
-module.exports = { addPoject };
+const deleteProject = async (req, res) => {
+  const db = req.app.locals.db;
+  const projectId = req.params.id;
+  const result = await deleteProjects(db, projectId);
+  res.send(result);
+
+}
+
+module.exports = { addPoject , deleteProject};

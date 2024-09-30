@@ -1,8 +1,16 @@
-const { getUsersCollection } = require("../models/projectModel");
+const { ObjectId } = require("mongodb");
+const { getProjectsCollection } = require("../models/projectModel");
 
 const addProjects = async (db, project) => {
-  const usersCollection = getUsersCollection(db);
-  return await usersCollection.insertOne(project);
+  const projectsCollection = getProjectsCollection(db);
+  return await projectsCollection.insertOne(project);
 };
 
-module.exports = { addProjects };
+const deleteProjects = async (db, projectId) => {
+  const projectsCollection = getProjectsCollection(db);
+  return await projectsCollection.deleteOne({ _id: new ObjectId(projectId) });
+};
+
+
+
+module.exports = { addProjects, deleteProjects };
