@@ -6,6 +6,15 @@ const connectToDatabase = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const teamRoutes = require('./routes/teamRoutes');
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
+const connectToDatabase = require('./config/db');
+const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+const teamRoutes = require('./routes/teamRoutes');
+const projectRoute = require('./routes/projectRoute');
 
 const app = express();
 const port = process.env.PORT || 5100;
@@ -29,6 +38,10 @@ connectToDatabase()
     app.use('/api', userRoutes);
     app.use('/task', taskRoutes);
     app.use('/team', teamRoutes);
+    app.use('/api', userRoutes);
+    app.use('/task', taskRoutes);
+    app.use('/team', teamRoutes);
+    app.use('/api', projectRoute);
 
     app.get('/', (req, res) => {
       res.send('Server is Running...');
