@@ -6,14 +6,7 @@ const connectToDatabase = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const teamRoutes = require('./routes/teamRoutes');
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
-const connectToDatabase = require('./config/db');
-const userRoutes = require('./routes/userRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const teamRoutes = require('./routes/teamRoutes');
+
 const projectRoute = require('./routes/projectRoute');
 
 const app = express();
