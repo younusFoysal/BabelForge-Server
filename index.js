@@ -35,7 +35,7 @@ connectToDatabase()
     app.use("/api", userRoutes);
     app.use("/task", taskRoutes);
     app.use("/team", teamRoutes);
-    app.use("/api", projectRoute);
+    app.use("/project", projectRoute);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
