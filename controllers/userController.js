@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const createJwtToken = (req, res) => {
   const user = req.body;
   const token = generateJwtToken(user);
+  console.log(token);
   res
     .cookie("token", token, {
       httpOnly: true,
@@ -48,6 +49,7 @@ const addUser = async (req, res) => {
   const hassPassword = bcrypt.hashSync(user.password, 16);
   // Check if user already exists
   const newuser = { ...user, password: hassPassword };
+  //console.log(newuser)
   const existingUser = await findUserByEmail(db, user.email);
   if (existingUser) {
     return res.status(400).send({ message: "User already exists" });
