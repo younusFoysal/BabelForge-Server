@@ -2,6 +2,7 @@ const { ObjectId } = require("mongodb");
 const {
   addProjects,
   deleteProjects,
+  updateProjects,
   getAllProjects,
   searchProject,
   SingleProject,
