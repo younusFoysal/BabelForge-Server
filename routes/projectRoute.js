@@ -4,12 +4,14 @@ const {
   addPoject,
   deleteProject,
   getProjects,
+  getsingleProject,
 } = require("../controllers/projectController");
 
 router.post("/projects", addPoject);
 
-router.delete("/projects/:id", deleteProject);
+router.get("/projects/:id", getsingleProject);
 
+router.delete("/projects/:id", deleteProject);
 // Get all projects GET /api/projects
 router.get("/projects", getProjects);
 

@@ -16,6 +16,14 @@ const getAllProjects = async (db) => {
   return await projectsCollection.find().toArray();
 };
 
+const SingleProject = async (db, id) => {
+  const projectsCollection = getProjectsCollection(db);
+  const query = {
+    _id: new ObjectId(id),
+  };
+  return await projectsCollection.findOne(query);
+};
+
 const searchProject = async (db, name) => {
   const projectsCollection = getProjectsCollection(db);
   const query = {
@@ -24,4 +32,10 @@ const searchProject = async (db, name) => {
   return await projectsCollection.findOne(query);
 };
 
-module.exports = { addProjects, deleteProjects, getAllProjects, searchProject };
+module.exports = {
+  addProjects,
+  deleteProjects,
+  getAllProjects,
+  searchProject,
+  SingleProject,
+};
