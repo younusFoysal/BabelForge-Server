@@ -6,6 +6,7 @@ const connectToDatabase = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
+const projectRoute = require("./routes/projectRoute");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,8 +33,9 @@ connectToDatabase()
     console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
-    app.use('/task', taskRoutes);
-    app.use('/team', teamRoutes);
+    app.use("/task", taskRoutes);
+    app.use("/team", teamRoutes);
+    app.use("/api", projectRoute);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
