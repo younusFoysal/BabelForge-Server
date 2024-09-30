@@ -1,6 +1,14 @@
 const { ObjectId } = require("mongodb");
 const { addProjects, deleteProjects, updateProjects } = require("../services/projectService");
+const {
+  addProjects,
+  deleteProjects,
+  getAllProjects,
+  searchProject,
+  SingleProject,
+} = require("../services/projectService");
 
+// add new project
 const addPoject = async (req, res) => {
   const db = req.app.locals.db;
   const projects = req.body;
@@ -8,6 +16,26 @@ const addPoject = async (req, res) => {
   res.send(result);
 };
 
+// get all projects and search projects
+const getProjects = async (req, res) => {
+  const db = req.app.locals.db;
+  const name = req.query.name;
+  let result;
+  if (name) {
+    result = await searchProject(db, name);
+  } else {
+    result = await getAllProjects(db);
+  }
+  res.send(result);
+};
+
+// single project api
+const getsingleProject = async (req, res) => {
+  const db = req.app.locals.db;
+  const id = req.params.id;
+  const result = await SingleProject(db, id);
+  res.send(result);
+};
 
 // delete project
 const deleteProject = async (req, res) => {
@@ -15,8 +43,9 @@ const deleteProject = async (req, res) => {
   const projectId = req.params.id;
   const result = await deleteProjects(db, projectId);
   res.send(result);
+};
 
-}
+
 
 
 // update project
@@ -45,4 +74,5 @@ const updateProject = async (req, res) => {
 
 }
 
-module.exports = { addPoject, deleteProject, updateProject };
+
+module.exports = { addPoject, deleteProject, getProjects, getsingleProject, updateProject };
