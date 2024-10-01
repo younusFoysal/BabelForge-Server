@@ -1,12 +1,12 @@
 const { ObjectId } = require("mongodb");
-// const { addProjects, deleteProjects, updateProjects } = require("../services/projectService");
 const {
   addProjects,
   deleteProjects,
+  updateProjects,
   getAllProjects,
   searchProject,
   SingleProject,
-  updateProjects
+  findMyProjects,
 } = require("../services/projectService");
 
 // add new project
@@ -30,6 +30,18 @@ const getProjects = async (req, res) => {
   res.send(result);
 };
 
+// Get all the projects i am in.
+const getMyProjects = async (req, res) => {
+  const db = req.app.locals.db;
+  const email = req.params.email;
+  const query = { pallmembers: email };
+  const result = await findMyProjects(db, query);
+  if (result.length === 0) {
+    res.send({ message: "No Team Found" });
+  }
+  res.send(result);
+};
+
 // single project api
 const getsingleProject = async (req, res) => {
   const db = req.app.locals.db;
@@ -47,34 +59,79 @@ const deleteProject = async (req, res) => {
   res.send(result);
 };
 
-
-
-
 // update project
 const updateProject = async (req, res) => {
-
   const db = req.app.locals.db;
-  const project = req.body;
   const projectId = req.params.id;
-  const filter = { _id: new ObjectId(projectId) };
-  const updateProject = {
-    $set: {
-      pname: project.pname,
-      pdes: project.pdes,
-      pimg: project.pimg,
-      pcategory: project.pcategory,
-      pmanager: project.pmanager,
-      psdate: project.psdate,
-      pedate: project.pedate,
-      purl: project.purl,
-    }
+  const project = req.body;
+  const {
+    addTeam,
+    removeTeam,
+    purl,
+    pedate,
+    psdate,
+    pmanager,
+    pcategory,
+    pimg,
+    pdes,
+    pname,
+    favourite,
+  } = project;
+
+  let updateFields = {
+    $set: {},
+  };
+
+  // Conditionally update fields using $set
+  if (pname) updateFields.$set.pname = pname;
+  if (pdes) updateFields.$set.pdes = pdes;
+  if (pimg) updateFields.$set.pimg = pimg;
+  if (pcategory) updateFields.$set.pcategory = pcategory;
+  if (pmanager) updateFields.$set.pmanager = pmanager;
+  if (psdate) updateFields.$set.psdate = new Date(psdate); // Convert date to correct format
+  if (pedate) updateFields.$set.pedate = new Date(pedate); // Convert date to correct format
+  if (purl) updateFields.$set.purl = purl;
+  if (favourite !== undefined) updateFields.$set.favourite = favourite;
+
+  // Add or remove team members if applicable
+  if (addTeam) {
+    if (!updateFields.$addToSet) updateFields.$addToSet = {};
+    updateFields.$addToSet.pteams = addTeam; // Adds the team if not already in the array
   }
 
-  const result = await updateProjects(db, filter, updateProject);
-  res.send(result);
+  if (removeTeam) {
+    if (!updateFields.$pull) updateFields.$pull = {};
+    updateFields.$pull.pteams = removeTeam; // Removes the team from the array
+  }
 
+  try {
+    const result = await updateProjects(
+      db,
+      { _id: new ObjectId(projectId) },
+      updateFields
+    );
 
-}
+    if (result.matchedCount === 0) {
+      return res.status(404).send({ message: "Project not found" });
+    }
 
+    if (result.modifiedCount === 0) {
+      return res
+        .status(400)
+        .send({ message: "No changes made or data already exists" });
+    }
 
-module.exports = { addPoject, deleteProject, getProjects, getsingleProject, updateProject };
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error updating project", error });
+  }
+};
+
+module.exports = {
+  addPoject,
+  deleteProject,
+  getProjects,
+  getsingleProject,
+  updateProject,
+  getMyProjects,
+};

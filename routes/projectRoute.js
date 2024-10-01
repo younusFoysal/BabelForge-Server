@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { addPoject, deleteProject, updateProject, getProjects , getsingleProject} = require("../controllers/projectController");
-
-
+const {
+  addPoject,
+  deleteProject,
+  updateProject,
+  getProjects,
+  getsingleProject,
+  getMyProjects,
+} = require("../controllers/projectController");
 
 router.post("/projects", addPoject);
 
 router.get("/projects/:id", getsingleProject);
+
+router.get("/projects/my-projects/:email", getMyProjects);
 
 router.delete("/projects/:id", deleteProject);
 
