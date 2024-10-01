@@ -1,11 +1,12 @@
 const { ObjectId } = require("mongodb");
-const { addProjects, deleteProjects, updateProjects } = require("../services/projectService");
+// const { addProjects, deleteProjects, updateProjects } = require("../services/projectService");
 const {
   addProjects,
   deleteProjects,
   getAllProjects,
   searchProject,
   SingleProject,
+  updateProjects
 } = require("../services/projectService");
 
 // add new project
@@ -36,6 +37,7 @@ const getsingleProject = async (req, res) => {
   const result = await SingleProject(db, id);
   res.send(result);
 };
+
 
 // delete project
 const deleteProject = async (req, res) => {

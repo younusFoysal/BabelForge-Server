@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const projectRoute = require("./routes/projectRoute");
+const messageRoute = require("./routes/messageRoute");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ connectToDatabase()
     app.use("/task", taskRoutes);
     app.use("/team", teamRoutes);
     app.use("/project", projectRoute);
+    app.use("/message", messageRoute);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
