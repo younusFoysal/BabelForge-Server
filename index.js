@@ -7,7 +7,9 @@ const { MongoClient } = require("mongodb");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
-const projectRoutes = require("./routes/projectRoute");
+const projectRoute = require("./routes/projectRoute");
+const dashRoute = require("./routes/dashRoute");
+const messageRoute = require("./routes/messageRoute");
 const chatRoutes = require("./routes/chatRoutes"); // Chat Routes
 const { initSocket } = require("./socket/socket");
 const connectToDatabase = require("./config/db"); // Socket.IO initialization
@@ -38,12 +40,13 @@ connectToDatabase()
     app.locals.db = db;
     console.log("Connected to MongoDB");
 
-        // Routes
-        app.use("/api", userRoutes);
-        app.use("/task", taskRoutes);
-        app.use("/team", teamRoutes);
-        app.use("/project", projectRoutes);
-        app.use("/chat", chatRoutes); // Chat Routes
+    app.use("/api", userRoutes);
+    app.use("/task", taskRoutes);
+    app.use("/team", teamRoutes);
+    app.use("/project", projectRoute);
+    app.use("/message", messageRoute);
+    app.use("/dashboard", dashRoute);
+    app.use("/chat", chatRoutes);
 
         app.get("/", (req, res) => {
             res.send("Server is Running...");
