@@ -40,6 +40,7 @@ connectToDatabase()
     app.use("/team", teamRoutes);
     app.use("/project", projectRoute);
     app.use("/message", messageRoute);
+    app.use("/dashboard", dashRoute);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
