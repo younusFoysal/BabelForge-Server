@@ -16,7 +16,15 @@ const saveMessage = async (db, messageData) => {
     return messageData;
 };
 
+// Delete all chat messages
+const deleteAllMessage = async (db) => {
+    const chatCollection = db.collection('chats');
+    await chatCollection.deleteMany({});
+    console.log('All messages deleted');
+};
+
 module.exports = {
     getAllMessages,
     saveMessage,
+    deleteAllMessage
 };
