@@ -14,9 +14,7 @@ const getMyTeams = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const email = req.params.email;
-  const query = {
-    tmembers: email,
-  };
+  const query = { tmembers: email };
   const result = await teamCollection.find(query).toArray();
   if (result.length === 0) {
     return res.status(404).send({ message: 'No teams found with that member' });
