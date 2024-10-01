@@ -45,9 +45,9 @@ const getMyProjects = async (req, res) => {
   const email = req.params.email;
   const query = { pallmembers: email };
   const result = await findMyProjects(db, query);
-  if (result.length === 0) {
-    res.send({ message: "No Team Found" });
-  }
+  // if (result.length === 0) {
+  //   res.send({ message: "No Team Found" });
+  // }
   res.send(result);
 };
 
