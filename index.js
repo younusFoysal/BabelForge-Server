@@ -49,7 +49,7 @@ connectToDatabase()
     app.use("/chat", chatRoutes);
 
         app.get("/", (req, res) => {
-            res.send("Server is Running...");
+            res.send("Babel Server is Running...");
         });
 
         // Initialize Socket.IO with the database
