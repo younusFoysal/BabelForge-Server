@@ -39,12 +39,31 @@ const SingleProject = async (db, id) => {
 };
 
 
-const searchProject = async (db, name) => {
+const searchAndFilterProject = async (db, name, category, email) => {
   const projectsCollection = getProjectsCollection(db);
-  const query = {
-    pname: name,
-  };
-  return await projectsCollection.findOne(query);
+  // console.log("from service: ", name, category, email);
+  let query = {};
+
+  if (name.length && category.length) {
+    query = {
+      pname: { $regex: name, $options: 'i' },
+      pcategory: category,
+      pallmembers: email
+    };
+  }
+  else if (name.length) {
+    query = {
+      pname: { $regex: name, $options: 'i' },
+      pallmembers: email
+    };
+  }
+  else if (category.length) {
+    query = {
+      pcategory: category,
+      pallmembers: email
+    };
+  }
+  return await projectsCollection.find(query).toArray();
 };
 
 
@@ -52,7 +71,7 @@ module.exports = {
   addProjects,
   deleteProjects,
   getAllProjects,
-  searchProject,
+  searchAndFilterProject,
   SingleProject,
   updateProjects,
   findMyProjects

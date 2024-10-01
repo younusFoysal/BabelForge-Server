@@ -4,9 +4,9 @@ const {
   deleteProjects,
   updateProjects,
   getAllProjects,
-  searchProject,
   SingleProject,
   findMyProjects,
+  searchAndFilterProject,
 } = require("../services/projectService");
 
 // add new project
@@ -20,11 +20,20 @@ const addPoject = async (req, res) => {
 // get all projects and search projects
 const getProjects = async (req, res) => {
   const db = req.app.locals.db;
-  const name = req.query.name;
+  const { name, category, email } = req.query;
+  // console.log(name.length, category.length, email.length);
+
   let result;
-  if (name) {
-    result = await searchProject(db, name);
-  } else {
+  if (name.length && category.length) {
+    result = await searchAndFilterProject(db, name, category, email);
+  }
+  else if (name.length) {
+    result = await searchAndFilterProject(db, name, '', email);
+  }
+  else if (category.length) {
+    result = await searchAndFilterProject(db, '', category, email);
+  }
+  else {
     result = await getAllProjects(db);
   }
   res.send(result);
