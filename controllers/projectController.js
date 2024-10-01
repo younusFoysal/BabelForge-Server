@@ -50,6 +50,7 @@ const getsingleProject = async (req, res) => {
   res.send(result);
 };
 
+
 // delete project
 const deleteProject = async (req, res) => {
   const db = req.app.locals.db;
