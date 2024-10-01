@@ -1,32 +1,27 @@
 // controllers/userController.js
-const { generateJwtToken } = require("../utils/helpers");
-const {
-  findUserByEmail,
-  updateUser,
-  findAllUsers,
-  addAllUser,
-} = require("../services/userService");
-const bcrypt = require("bcrypt");
+const { generateJwtToken } = require('../utils/helpers');
+const { findUserByEmail, updateUser, findAllUsers, addAllUser } = require('../services/userService');
+const bcrypt = require('bcrypt');
 
 const createJwtToken = (req, res) => {
   const user = req.body;
   const token = generateJwtToken(user);
   console.log(token);
   res
-    .cookie("token", token, {
+    .cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     })
     .send({ success: true });
 };
 
 const logout = (req, res) => {
   res
-    .clearCookie("token", {
+    .clearCookie('token', {
       maxAge: 0,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     })
     .send({ success: true });
 };
@@ -37,8 +32,8 @@ const createPaymentIntent = async (req, res) => {
   if (!salary || salaryInCent < 1) return;
   const { client_secret } = await stripe.paymentIntents.create({
     amount: salaryInCent,
-    currency: "usd",
-    payment_method_types: ["card"],
+    currency: 'usd',
+    payment_method_types: ['card'],
   });
   res.send({ clientSecret: client_secret });
 };
@@ -52,7 +47,7 @@ const addUser = async (req, res) => {
   //console.log(newuser)
   const existingUser = await findUserByEmail(db, user.email);
   if (existingUser) {
-    return res.status(400).send({ message: "User already exists" });
+    return res.status(400).send({ message: 'User already exists' });
   }
   // Add new user to the database
   const result = await addAllUser(db, newuser); // This will insert or update the user using upsert
