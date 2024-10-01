@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const projectRoute = require("./routes/projectRoute");
+const dashRoute = require("./routes/dashRoute");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +18,7 @@ const corsOptions = {
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:3000",
-      "http://localhost:3001",
+    "http://localhost:3001",
     "https://babel-forge.vercel.app",
   ],
   credentials: true,
@@ -37,6 +38,7 @@ connectToDatabase()
     app.use("/task", taskRoutes);
     app.use("/team", teamRoutes);
     app.use("/project", projectRoute);
+    app.use("/dashboard", dashRoute);
 
     app.get("/", (req, res) => {
       res.send("Server is Running...");
