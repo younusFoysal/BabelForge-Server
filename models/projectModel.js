@@ -1,5 +1,5 @@
-const getUsersCollection = (db) => {
+const getProjectsCollection = (db) => {
   return db.collection("projects");
 };
 
-module.exports = { getUsersCollection };
+module.exports = { getProjectsCollection };

@@ -1,5 +1,5 @@
-const { ObjectId } = require('mongodb');
-const { getTeamsCollection } = require('../models/teamModel');
+const { ObjectId } = require("mongodb");
+const { getTeamsCollection } = require("../models/teamModel");
 
 // Get all created teams.
 const getAllTeams = async (req, res) => {
@@ -14,12 +14,10 @@ const getMyTeams = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const email = req.params.email;
-  const query = {
-    tmembers: email,
-  };
+  const query = { tmembers: email };
   const result = await teamCollection.find(query).toArray();
   if (result.length === 0) {
-    return res.status(404).send({ message: 'No teams found with that member' });
+    return res.status(404).send({ message: "No teams found with that member" });
   }
   res.send(result);
 };
@@ -53,7 +51,15 @@ const updateTeam = async (req, res) => {
   const query = { _id: new ObjectId(id) };
 
   // please use the same name while passing data to the server from frontend
-  const { addMember, removeMember, addLink, removeLink, name, description, coverImage } = req.body;
+  const {
+    addMember,
+    removeMember,
+    addLink,
+    removeLink,
+    name,
+    description,
+    coverImage,
+  } = req.body;
 
   let updateFields = {};
 
@@ -86,16 +92,18 @@ const updateTeam = async (req, res) => {
     const result = await teamCollection.updateOne(query, updateFields);
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ message: 'Team not found' });
+      return res.status(404).send({ message: "Team not found" });
     }
 
     if (result.modifiedCount === 0) {
-      return res.status(400).send({ message: 'No changes made or data already exists' });
+      return res
+        .status(400)
+        .send({ message: "No changes made or data already exists" });
     }
 
     res.send(result);
   } catch (error) {
-    res.status(500).send({ message: 'Error updating team', error });
+    res.status(500).send({ message: "Error updating team", error });
   }
 };
 
