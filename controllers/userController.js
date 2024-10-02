@@ -65,6 +65,7 @@ const getUser = async (req, res) => {
   const db = req.app.locals.db;
   const email = req.params.email;
   const result = await findUserByEmail(db, email);
+  // console.log(email);
   res.send(result);
 };
 
