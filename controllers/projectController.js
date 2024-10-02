@@ -47,13 +47,12 @@ const getMyProjects = async (req, res) => {
   // console.log(name, email);
   let query = {};
 
-  if (name.length) {
+  if (name?.length) {
     query = {
       pname: { $regex: name, $options: 'i' },
       pallmembers: email
     };
   }
-
   else {
     query = { pallmembers: email };
   }
