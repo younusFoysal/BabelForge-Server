@@ -24,16 +24,13 @@ const getProjects = async (req, res) => {
   // console.log(name.length, category.length, email.length);
 
   let result;
-  if (name.length && category.length) {
+  if (name?.length && category?.length) {
     result = await searchAndFilterProject(db, name, category, email);
-  }
-  else if (name.length) {
-    result = await searchAndFilterProject(db, name, '', email);
-  }
-  else if (category.length) {
-    result = await searchAndFilterProject(db, '', category, email);
-  }
-  else {
+  } else if (name?.length) {
+    result = await searchAndFilterProject(db, name, "", email);
+  } else if (category?.length) {
+    result = await searchAndFilterProject(db, "", category, email);
+  } else {
     result = await getAllProjects(db);
   }
   res.send(result);
@@ -49,11 +46,10 @@ const getMyProjects = async (req, res) => {
 
   if (name?.length) {
     query = {
-      pname: { $regex: name, $options: 'i' },
-      pallmembers: email
+      pname: { $regex: name, $options: "i" },
+      pallmembers: email,
     };
-  }
-  else {
+  } else {
     query = { pallmembers: email };
   }
 
