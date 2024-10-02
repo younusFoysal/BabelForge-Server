@@ -1,12 +1,18 @@
 const express = require("express");
+const http = require("http");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const connectToDatabase = require("./config/db");
+const { MongoClient } = require("mongodb");
 const userRoutes = require("./routes/userRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 const projectRoute = require("./routes/projectRoute");
+const dashRoute = require("./routes/dashRoute");
+const messageRoute = require("./routes/messageRoute");
+const chatRoutes = require("./routes/chatRoutes"); // Chat Routes
+const { initSocket } = require("./socket/socket");
+const connectToDatabase = require("./config/db"); // Socket.IO initialization
 
 const app = express();
 const server = http.createServer(app);
@@ -30,9 +36,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 connectToDatabase()
-    .then(db => {
+    .then((db) => {
         app.locals.db = db;
-        console.log('Connected to MongoDB');
+        console.log("Connected to MongoDB");
 
         app.use("/api", userRoutes);
         app.use("/task", taskRoutes);
