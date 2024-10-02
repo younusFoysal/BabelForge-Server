@@ -11,14 +11,14 @@ const {
 
 router.post("/projects", addPoject);
 
-router.get("/projects/:id", getsingleProject);
-
-router.get("/projects/my-projects/:email", getMyProjects);
-
-router.delete("/projects/:id", deleteProject);
-
 // Get all projects GET /api/projects
 router.get("/projects", getProjects);
+
+router.get("/projects/single/:id", getsingleProject);
+
+router.get("/projects/my-projects", getMyProjects);
+
+router.delete("/projects/:id", deleteProject);
 
 // projects Update Api
 router.patch("/projects/update/:id", updateProject);
