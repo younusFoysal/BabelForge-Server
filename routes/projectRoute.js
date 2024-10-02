@@ -14,9 +14,9 @@ router.post("/projects", addPoject);
 // Get all projects GET /api/projects
 router.get("/projects", getProjects);
 
-router.get("/projects/:id", getsingleProject);
+router.get("/projects/single/:id", getsingleProject);
 
-router.get("/projects/my-projects/:email", getMyProjects);
+router.get("/projects/my-projects", getMyProjects);
 
 router.delete("/projects/:id", deleteProject);
 
