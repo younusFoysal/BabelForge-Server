@@ -40,10 +40,25 @@ const getProjects = async (req, res) => {
 };
 
 // Get all the projects i am in.
+// Get all the projects i am in.
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
-  const email = req.params.email;
-  const query = { pallmembers: email };
+  const { name, email } = req.query;
+  // console.log(name, email);
+  let query = {};
+
+  if (name.length) {
+    query = {
+      pname: { $regex: name, $options: 'i' },
+      pallmembers: email
+    };
+  }
+
+  else {
+    query = { pallmembers: email };
+  }
+
+  // const query = { pallmembers: email };
   const result = await findMyProjects(db, query);
   // if (result.length === 0) {
   //   res.send({ message: "No Team Found" });
