@@ -38,10 +38,7 @@ app.use(cookieParser());
 connectToDatabase()
   .then(db => {
     app.locals.db = db;
-    console.log('Connected to MongoDB')
-    .then((db) => {
-        app.locals.db = db;
-        console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
 
     app.use('/api', userRoutes);
     app.use('/task', taskRoutes);
@@ -50,13 +47,6 @@ connectToDatabase()
     app.use('/message', messageRoute);
     app.use('/dashboard', dashRoute);
     app.use('/chat', chatRoutes);
-        app.use("/api", userRoutes);
-        app.use("/task", taskRoutes);
-        app.use("/team", teamRoutes);
-        app.use("/project", projectRoute);
-        app.use("/message", messageRoute);
-        app.use("/dashboard", dashRoute);
-        app.use("/chat", chatRoutes);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
@@ -70,4 +60,4 @@ connectToDatabase()
       console.log(`Server is running on port ${port}`);
     });
   })
-  .catch(err => console.error('Error connecting to MongoDB', err))
+  .catch(err => console.error('Error connecting to MongoDB', err));
