@@ -26,6 +26,7 @@ const corsOptions = {
         "http://localhost:3000",
         "http://localhost:3001",
         "https://babel-forge.vercel.app",
+        "http://babel-forge.vercel.app",
     ],
     credentials: true,
     optionSuccessStatus: 200,
