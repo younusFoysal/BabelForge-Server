@@ -6,16 +6,15 @@ let io;
 const initSocket = (server, db) => {
     io = new Server(server, {
         cors: {
-            origin: ["https://babel-forge.vercel.app", "http://babel-forge.vercel.app"],
+            origin: ["*"],
             methods: ["GET", "POST"],
-            credentials: true
         },
     });
 
     io.use((socket, next) => {
-        socket.request.res.setHeader('Access-Control-Allow-Origin', 'https://babel-forge.vercel.app');
+        socket.request.res.setHeader('Access-Control-Allow-Origin', '*');
         socket.request.res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
-        socket.request.res.setHeader('Access-Control-Allow-Credentials', 'true');
+        //socket.request.res.setHeader('Access-Control-Allow-Credentials', 'true');
         next();
     });
 
