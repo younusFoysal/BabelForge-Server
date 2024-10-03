@@ -6,7 +6,7 @@ let io;
 const initSocket = (server, db) => {
     io = new Server(server, {
         cors: {
-            origin: "https://babel-forge.vercel.app",
+            origin: "*",
             methods: ["GET", "POST"],
         },
     });
