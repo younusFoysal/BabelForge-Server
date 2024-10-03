@@ -19,7 +19,7 @@ const initSocket = (server, db) => {
     // });
 
     io.on("connection", (socket) => {
-        console.log("New user connected:", socket.id);
+        console.log("New User connected:", socket.id);
 
         // Send previous messages to newly connected client
         chatService.getAllMessages(db).then((messages) => {
