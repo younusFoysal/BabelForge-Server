@@ -11,12 +11,12 @@ const initSocket = (server, db) => {
         },
     });
 
-    io.use((socket, next) => {
-        socket.request.res.setHeader('Access-Control-Allow-Origin', '*');
-        socket.request.res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
-        //socket.request.res.setHeader('Access-Control-Allow-Credentials', 'true');
-        next();
-    });
+    // io.use((socket, next) => {
+    //     socket.request.res.setHeader('Access-Control-Allow-Origin', '*');
+    //     socket.request.res.setHeader('Access-Control-Allow-Methods', 'GET,POST');
+    //     //socket.request.res.setHeader('Access-Control-Allow-Credentials', 'true');
+    //     next();
+    // });
 
     io.on("connection", (socket) => {
         console.log("New user connected:", socket.id);
