@@ -8,6 +8,7 @@ const initSocket = (server, db) => {
         cors: {
             origin: "*",
             methods: ["GET", "POST"],
+            credentials: true
         },
     });
 
