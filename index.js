@@ -9,6 +9,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const teamRoutes = require('./routes/teamRoutes');
 const projectRoute = require('./routes/projectRoute');
 const dashRoute = require('./routes/dashRoute');
+const visitorRoutes = require('./routes/visitorRoutes');
 const messageRoute = require('./routes/messageRoute');
 const chatRoutes = require('./routes/chatRoutes'); // Chat Routes
 const { initSocket } = require('./socket/socket');
@@ -16,7 +17,7 @@ const connectToDatabase = require('./config/db'); // Socket.IO initialization
 
 const app = express();
 const server = http.createServer(app);
-const port = process.env.PORT || 5100;
+const port = process.env.PORT || 5000;
 
 // Middleware and CORS setup
 const corsOptions = {
@@ -47,6 +48,7 @@ connectToDatabase()
     app.use('/message', messageRoute);
     app.use('/dashboard', dashRoute);
     app.use('/chat', chatRoutes);
+    app.use('/api', visitorRoutes);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
