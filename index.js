@@ -14,6 +14,7 @@ const messageRoute = require('./routes/messageRoute');
 const chatRoutes = require('./routes/chatRoutes'); // Chat Routes
 const { initSocket } = require('./socket/socket');
 const connectToDatabase = require('./config/db'); // Socket.IO initialization
+const reviewRoute = require('./routes/reviewRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -49,6 +50,7 @@ connectToDatabase()
     app.use('/dashboard', dashRoute);
     app.use('/chat', chatRoutes);
     app.use('/api', visitorRoutes);
+    app.use('/api', reviewRoute);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
