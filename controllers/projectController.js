@@ -39,7 +39,7 @@ const getProjects = async (req, res) => {
   res.send(result);
 };
 
-// Get all the projects i am in.
+
 // Get all the projects i am in.
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
@@ -58,11 +58,9 @@ const getMyProjects = async (req, res) => {
     query = { pallmembers: email };
   }
 
-  // const query = { pallmembers: email };
+
   const result = await findMyProjects(db, query);
-  // if (result.length === 0) {
-  //   res.send({ message: "No Team Found" });
-  // }
+
   res.send(result);
 };
 
