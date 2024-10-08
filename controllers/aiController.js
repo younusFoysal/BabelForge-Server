@@ -1,4 +1,4 @@
-const { fetchAIResponse } = require('../services/aiService');
+const { startChat } = require('../services/aiService');
 
 const getAIResponse = async (req, res) => {
     const { prompt } = req.body;
@@ -8,7 +8,7 @@ const getAIResponse = async (req, res) => {
     }
 
     try {
-        const response = await fetchAIResponse(prompt);
+        const response = await startChat(prompt);
         res.status(200).json({ response });
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch AI response.' });
