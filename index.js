@@ -16,7 +16,8 @@ const aiRoutes = require('./routes/aiRoutes');
 const { initSocket } = require('./socket/socket');
 const connectToDatabase = require('./config/db'); // Socket.IO initialization
 const reviewRoute = require('./routes/reviewRoute');
-const pricingRoute = require('./routes/pricingRoutes')
+const pricingRoute = require('./routes/pricingRoutes');
+const paymentRoute = require('./routes/paymentRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -55,6 +56,7 @@ connectToDatabase()
     app.use('/api', reviewRoute);
     app.use('/ai', aiRoutes);
     app.use('/price',pricingRoute)
+    app.use('/',paymentRoute);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
