@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { ObjectId } = require('mongodb');
 const {
   addProjects,
   deleteProjects,
@@ -7,7 +7,7 @@ const {
   SingleProject,
   findMyProjects,
   searchAndFilterProject,
-} = require("../services/projectService");
+} = require('../services/projectService');
 
 // add new project
 const addPoject = async (req, res) => {
@@ -27,9 +27,9 @@ const getProjects = async (req, res) => {
   if (name?.length && category?.length) {
     result = await searchAndFilterProject(db, name, category, email);
   } else if (name?.length) {
-    result = await searchAndFilterProject(db, name, "", email);
+    result = await searchAndFilterProject(db, name, '', email);
   } else if (category?.length) {
-    result = await searchAndFilterProject(db, "", category, email);
+    result = await searchAndFilterProject(db, '', category, email);
   } else {
     result = await getAllProjects(db);
   }
@@ -41,12 +41,12 @@ const getProjects = async (req, res) => {
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, email } = req.query;
-  // console.log(name, email);
+  console.log(name, email);
   let query = {};
 
-  if (name.length) {
+  if (name?.length) {
     query = {
-      pname: { $regex: name, $options: "i" },
+      pname: { $regex: name, $options: 'i' },
       pallmembers: email,
     };
   } else {
@@ -82,19 +82,7 @@ const updateProject = async (req, res) => {
   const db = req.app.locals.db;
   const projectId = req.params.id;
   const project = req.body;
-  const {
-    addTeam,
-    removeTeam,
-    purl,
-    pedate,
-    psdate,
-    pmanager,
-    pcategory,
-    pimg,
-    pdes,
-    pname,
-    favourite,
-  } = project;
+  const { addTeam, removeTeam, purl, pedate, psdate, pmanager, pcategory, pimg, pdes, pname, favourite } = project;
 
   let updateFields = {
     $set: {},
@@ -123,25 +111,19 @@ const updateProject = async (req, res) => {
   }
 
   try {
-    const result = await updateProjects(
-      db,
-      { _id: new ObjectId(projectId) },
-      updateFields
-    );
+    const result = await updateProjects(db, { _id: new ObjectId(projectId) }, updateFields);
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ message: "Project not found" });
+      return res.status(404).send({ message: 'Project not found' });
     }
 
     if (result.modifiedCount === 0) {
-      return res
-        .status(400)
-        .send({ message: "No changes made or data already exists" });
+      return res.status(400).send({ message: 'No changes made or data already exists' });
     }
 
     res.send(result);
   } catch (error) {
-    res.status(500).send({ message: "Error updating project", error });
+    res.status(500).send({ message: 'Error updating project', error });
   }
 };
 

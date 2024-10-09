@@ -1,5 +1,5 @@
-const { getTeamsCollection } = require("../models/teamModel");
-const { getTasksCollection } = require("../models/taskModel");
+const { getTeamsCollection } = require('../models/teamModel');
+const { getTasksCollection } = require('../models/taskModel');
 
 // Get all dashboard information.
 
@@ -15,24 +15,31 @@ const allDashinfo = async (req, res) => {
 
   const tasks = await tasksCollection.find(taskquery).toArray();
 
-  const pendingTasks = tasks.filter(
-    (task) => task.tproces === "inProgress" || task.tproces === "todo"
-  ).length;
-  const TodoTasks = tasks.filter((task) => task.tproces === "todo").length;
-  const DoneTask = tasks.filter((task) => task.tproces === "done").length;
-  const InprogressTask = tasks.filter(
-    (task) => task.tproces === "inProgress"
-  ).length;
+  const pendingTasks = tasks.filter(task => task.tproces === 'inProgress' || task.tproces === 'todo').length;
+  const TodoTasks = tasks.filter(task => task.tproces === 'todo').length;
+  const DoneTask = tasks.filter(task => task.tproces === 'done').length;
+  const InprogressTask = tasks.filter(task => task.tproces === 'inProgress').length;
 
-  const totalTeamMembers = team.reduce(
-    (sum, team) => sum + team.tmembers.length,
-    0
-  );
+  const totalTeamMembers = team.reduce((sum, team) => sum + team.tmembers.length, 0);
 
-  const newmamber = [...new Set(team.flatMap((t) => t.tmembers))];
+  const newmamber = [...new Set(team.flatMap(t => t.tmembers))];
 
   const totalTeams = team.length;
   const totalTasks = tasks.length;
+
+  // let tasknew = [];
+
+  // const taskmembet = await Promise.all(
+  //   newmamber.map(async t => {
+  //     const taskquery = { author: t };
+  //     const tasks = await tasksCollection.find(taskquery).toArray();
+  //     console.log(tasks);
+  //     return tasks; // Return tasks for this member
+  //   })
+  // );
+
+  // // Flatten the array and push to tasknew
+  // tasknew = taskmembet.flat();
 
   res.send({
     totalTeams,
