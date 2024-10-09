@@ -10,6 +10,15 @@ const getAllPrice = async(req,res)=>{
     res.send(result);
 }
 
+const getSinglePrice = async(req,res)=>{
+    const db = req.app.locals.db;
+    const id = req.params.id
+    const query = {_id: new ObjectId(id)}
+    const priceCollection = getPricingCollection(db);
+    const result = await priceCollection.findOne(query);
+    res.send(result);
+}
+
 const updatePrice = async(req,res)=>{
     db = req.app.locals.db;
     const id = req.params.id;
