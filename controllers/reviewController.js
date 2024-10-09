@@ -1,6 +1,8 @@
-const { addReviews, allReviews } = require("../services/reviewService");
+
+const { addReviews, allReviews, deleteReviews } = require("../services/reviewService");
 
 
+// add review
 const addReview = async (req, res) => {
     const db = req.app.locals.db;
     const review = req.body;
@@ -17,4 +19,18 @@ const allReview = async (req, res) => {
 }
 
 
-module.exports = { addReview, allReview };
+// delete review
+const deleteReview = async (req, res) => {
+    const db = req.app.locals.db;
+    const reviewId = req.params.id;
+    const result = await deleteReviews(db, reviewId);
+    res.send(result);
+
+}
+
+
+
+
+
+
+module.exports = { addReview, allReview, deleteReview };

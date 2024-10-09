@@ -37,6 +37,12 @@ const createTeam = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const data = req.body;
+
+  // Add a timestamp only if 'createdAt' is not present in the incoming data
+  if (!data.createdAt) {
+    data.createdAt = new Date();
+  }
+
   const result = await teamCollection.insertOne(data);
   // console.log(data);
   // console.log(result);
