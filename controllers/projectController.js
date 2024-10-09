@@ -86,6 +86,7 @@ const updateProject = async (req, res) => {
   const db = req.app.locals.db;
   const projectId = req.params.id;
   const project = req.body;
+  // console.log(project);
   const {
     addTeam,
     removeTeam,
@@ -97,7 +98,7 @@ const updateProject = async (req, res) => {
     pimg,
     pdes,
     pname,
-    favourite,
+    favorite,
   } = project;
 
   let updateFields = {
@@ -113,7 +114,10 @@ const updateProject = async (req, res) => {
   if (psdate) updateFields.$set.psdate = new Date(psdate); // Convert date to correct format
   if (pedate) updateFields.$set.pedate = new Date(pedate); // Convert date to correct format
   if (purl) updateFields.$set.purl = purl;
-  if (favourite !== undefined) updateFields.$set.favourite = favourite;
+
+  if (favorite !== undefined) {
+    updateFields.$set.favorite = favorite;
+  }
 
   // Add or remove team members if applicable
   if (addTeam) {
@@ -127,6 +131,7 @@ const updateProject = async (req, res) => {
   }
 
   try {
+    // console.log(projectId);
     const result = await updateProjects(
       db,
       { _id: new ObjectId(projectId) },
