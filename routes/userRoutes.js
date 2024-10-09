@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { verifyToken, verifyAdmin, verifyHost } = require('../middleware/auth');
 const {
-    createJwtToken,
-    logout,
-    createPaymentIntent,
-    addUser,
-    updateUserProfile,
-    getUser,
-    getAllUsers
+  createJwtToken,
+  logout,
+  createPaymentIntent,
+  addUser,
+  updateUserProfile,
+  getUser,
+  getAllUsers,
 } = require('../controllers/userController');
 
 router.post('/jwt', createJwtToken);

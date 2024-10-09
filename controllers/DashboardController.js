@@ -1,5 +1,5 @@
-const { getTeamsCollection } = require("../models/teamModel");
-const { getTasksCollection } = require("../models/taskModel");
+const { getTeamsCollection } = require('../models/teamModel');
+const { getTasksCollection } = require('../models/taskModel');
 
 // Get all dashboard information.
 
@@ -7,23 +7,50 @@ const allDashinfo = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const tasksCollection = getTasksCollection(db);
-  const teams = await teamCollection.find().toArray();
-  const tasks = await tasksCollection.find().toArray();
 
-  const pendingTasks = tasks.filter(
-    (task) => task.tproces === "inProgress" || task.tproces === "todo"
-  );
+  const email = req.params.email;
+  const query = { tmembers: email };
+  const taskquery = { author: email };
+  const team = await teamCollection.find(query).toArray();
 
-  const totalTeamMembers = teams.reduce(
-    (sum, team) => sum + team.tmembers.length,
-    0
-  );
+  const tasks = await tasksCollection.find(taskquery).toArray();
 
-  const totalTeams = teams.length;
+  const pendingTasks = tasks.filter(task => task.tproces === 'inProgress' || task.tproces === 'todo').length;
+  const TodoTasks = tasks.filter(task => task.tproces === 'todo').length;
+  const DoneTask = tasks.filter(task => task.tproces === 'done').length;
+  const InprogressTask = tasks.filter(task => task.tproces === 'inProgress').length;
+
+  const totalTeamMembers = team.reduce((sum, team) => sum + team.tmembers.length, 0);
+
+  const newmamber = [...new Set(team.flatMap(t => t.tmembers))];
+
+  const totalTeams = team.length;
   const totalTasks = tasks.length;
-  const totalPendingTasks = pendingTasks.length;
 
-  res.send({ totalTeams, totalTasks, totalPendingTasks, totalTeamMembers });
+  // let tasknew = [];
+
+  // const taskmembet = await Promise.all(
+  //   newmamber.map(async t => {
+  //     const taskquery = { author: t };
+  //     const tasks = await tasksCollection.find(taskquery).toArray();
+  //     console.log(tasks);
+  //     return tasks; // Return tasks for this member
+  //   })
+  // );
+
+  // // Flatten the array and push to tasknew
+  // tasknew = taskmembet.flat();
+
+  res.send({
+    totalTeams,
+    totalTasks,
+    pendingTasks,
+    totalTeamMembers,
+    TodoTasks,
+    DoneTask,
+    InprogressTask,
+    newmamber,
+  });
 };
 
 module.exports = { allDashinfo };

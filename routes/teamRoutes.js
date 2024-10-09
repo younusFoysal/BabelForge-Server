@@ -1,8 +1,7 @@
 const express = require('express');
 // const { verifyToken, verifyAdmin, verifyHost } = require('../middleware/auth');
-const { getAllTeams, getMyTeams, getOneTeam, createTeam, updateTeam, deleteTeam, } = require('../controllers/teamController');
+const { getAllTeams, getMyTeams, getOneTeam, createTeam, updateTeam, deleteTeam } = require('../controllers/teamController');
 const router = express.Router();
-
 
 // Get all created teams.
 router.get('/teams', getAllTeams);

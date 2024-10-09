@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { ObjectId } = require('mongodb');
 const {
   addProjects,
   deleteProjects,
@@ -7,7 +7,7 @@ const {
   SingleProject,
   findMyProjects,
   searchAndFilterProject,
-} = require("../services/projectService");
+} = require('../services/projectService');
 
 // add new project
 const addPoject = async (req, res) => {
@@ -24,16 +24,13 @@ const getProjects = async (req, res) => {
   // console.log(name.length, category.length, email.length);
 
   let result;
-  if (name.length && category.length) {
+  if (name?.length && category?.length) {
     result = await searchAndFilterProject(db, name, category, email);
-  }
-  else if (name.length) {
+  } else if (name?.length) {
     result = await searchAndFilterProject(db, name, '', email);
-  }
-  else if (category.length) {
+  } else if (category?.length) {
     result = await searchAndFilterProject(db, '', category, email);
-  }
-  else {
+  } else {
     result = await getAllProjects(db);
   }
   res.send(result);
@@ -44,17 +41,15 @@ const getProjects = async (req, res) => {
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, email } = req.query;
-  // console.log(name, email);
+  console.log(name, email);
   let query = {};
 
-  if (name.length) {
+  if (name?.length) {
     query = {
       pname: { $regex: name, $options: 'i' },
-      pallmembers: email
+      pallmembers: email,
     };
-  }
-
-  else {
+  } else {
     query = { pallmembers: email };
   }
 
@@ -71,7 +66,6 @@ const getsingleProject = async (req, res) => {
   const result = await SingleProject(db, id);
   res.send(result);
 };
-
 
 // delete project
 const deleteProject = async (req, res) => {
@@ -139,18 +133,16 @@ const updateProject = async (req, res) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ message: "Project not found" });
+      return res.status(404).send({ message: 'Project not found' });
     }
 
     if (result.modifiedCount === 0) {
-      return res
-        .status(400)
-        .send({ message: "No changes made or data already exists" });
+      return res.status(400).send({ message: 'No changes made or data already exists' });
     }
 
     res.send(result);
   } catch (error) {
-    res.status(500).send({ message: "Error updating project", error });
+    res.status(500).send({ message: 'Error updating project', error });
   }
 };
 
