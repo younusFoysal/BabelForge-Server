@@ -1,4 +1,5 @@
 
+const { ObjectId } = require("mongodb");
 const { getPaymentCollection } = require("../models/paymentModel");
 const { addPaymentService } = require("../services/paymentService");
 
@@ -16,4 +17,14 @@ const getAllPayment = async(req,res)=>{
     res.send(result);
 }
 
-module.exports= {addPayment, getAllPayment}
+const getSinglePayment = async(req,res)=>{
+    const db = req.app.locals.db;
+    const id = req.params.id;
+    const query = {_id: ObjectId(id)}
+    const paymentCollection = getPaymentCollection(db);
+    const result = await paymentCollection.findOne(query);
+    res.send(result);
+
+}
+
+module.exports= {addPayment, getAllPayment, getSinglePayment}
