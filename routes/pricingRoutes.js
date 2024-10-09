@@ -1,7 +1,8 @@
 const express = require("express");
+const { getAllPrice } = require("../controllers/pricingController");
 const router = express.Router();
 
 
-router.get('/pricing',pricingCard);
+router.get('/pricing',getAllPrice);
 
-router.patch('/pricingCard/update/:id',updatePricing);
+module.exports=router
