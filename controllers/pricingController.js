@@ -43,5 +43,5 @@ const updatePrice = async(req,res)=>{
 }
 
 module.exports={
-    getAllPrice, updatePrice
+    getAllPrice, updatePrice, getSinglePrice
 }
