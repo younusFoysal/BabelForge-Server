@@ -20,7 +20,7 @@ const getAllPayment = async(req,res)=>{
 const getSinglePayment = async(req,res)=>{
     const db = req.app.locals.db;
     const id = req.params.id;
-    const query = {_id: ObjectId(id)}
+    const query = {_id: new ObjectId(id)}
     const paymentCollection = getPaymentCollection(db);
     const result = await paymentCollection.findOne(query);
     res.send(result);
