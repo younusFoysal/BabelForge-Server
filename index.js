@@ -45,7 +45,7 @@ app.use(cookieParser());
 connectToDatabase()
     .then((db) => {
         app.locals.db = db;
-        console.log("Connected to MongoDB");
+        console.log("Connected To MongoDB");
 
     app.use('/api', userRoutes);
     app.use('/task', taskRoutes);
