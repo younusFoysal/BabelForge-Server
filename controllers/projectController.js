@@ -36,7 +36,7 @@ const getProjects = async (req, res) => {
   res.send(result);
 };
 
-// Get all the projects i am in.
+
 // Get all the projects i am in.
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
@@ -53,11 +53,9 @@ const getMyProjects = async (req, res) => {
     query = { pallmembers: email };
   }
 
-  // const query = { pallmembers: email };
+
   const result = await findMyProjects(db, query);
-  // if (result.length === 0) {
-  //   res.send({ message: "No Team Found" });
-  // }
+
   res.send(result);
 };
 
@@ -82,7 +80,20 @@ const updateProject = async (req, res) => {
   const db = req.app.locals.db;
   const projectId = req.params.id;
   const project = req.body;
-  const { addTeam, removeTeam, purl, pedate, psdate, pmanager, pcategory, pimg, pdes, pname, favourite } = project;
+  // console.log(project);
+  const {
+    addTeam,
+    removeTeam,
+    purl,
+    pedate,
+    psdate,
+    pmanager,
+    pcategory,
+    pimg,
+    pdes,
+    pname,
+    favorite,
+  } = project;
 
   let updateFields = {
     $set: {},
@@ -97,7 +108,10 @@ const updateProject = async (req, res) => {
   if (psdate) updateFields.$set.psdate = new Date(psdate); // Convert date to correct format
   if (pedate) updateFields.$set.pedate = new Date(pedate); // Convert date to correct format
   if (purl) updateFields.$set.purl = purl;
-  if (favourite !== undefined) updateFields.$set.favourite = favourite;
+
+  if (favorite !== undefined) {
+    updateFields.$set.favorite = favorite;
+  }
 
   // Add or remove team members if applicable
   if (addTeam) {
@@ -111,7 +125,12 @@ const updateProject = async (req, res) => {
   }
 
   try {
-    const result = await updateProjects(db, { _id: new ObjectId(projectId) }, updateFields);
+    // console.log(projectId);
+    const result = await updateProjects(
+      db,
+      { _id: new ObjectId(projectId) },
+      updateFields
+    );
 
     if (result.matchedCount === 0) {
       return res.status(404).send({ message: 'Project not found' });

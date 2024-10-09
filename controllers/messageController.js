@@ -1,5 +1,5 @@
 
-const { addMessages, AllMessages } = require("../services/messageService");
+const { addMessages, AllMessages, deleteMessages } = require("../services/messageService");
 
 
 // add messages
@@ -17,6 +17,12 @@ const AllMessage = async (req, res) => {
     res.send(result);
 }
 
+const deleteMessage = async (req, res) => {
+    const db = req.app.locals.db;
+    const mid = req.params.id;
+    const result = await deleteMessages(db, mid);
+    res.send(result);
+}
 
 
 
@@ -25,4 +31,5 @@ const AllMessage = async (req, res) => {
 
 
 
-module.exports = { addMessage, AllMessage };
+
+module.exports = { addMessage, AllMessage, deleteMessage };

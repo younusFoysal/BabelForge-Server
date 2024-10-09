@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { getMessagesCollection } = require("../models/messageModel");
 
 // add message
@@ -15,6 +16,12 @@ const AllMessages = async (db) => {
 };
 
 
+// delete message
+
+const deleteMessages = async (db, mid) => {
+    const messagesCollection = getMessagesCollection(db);
+    return await messagesCollection.deleteOne({ _id: new ObjectId(mid) })
+}
 
 
 
@@ -25,4 +32,6 @@ const AllMessages = async (db) => {
 
 
 
-module.exports = { addMessages, AllMessages };
+
+
+module.exports = { addMessages, AllMessages, deleteMessages };
