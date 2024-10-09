@@ -57,7 +57,7 @@ connectToDatabase()
     app.use('/api', reviewRoute);
     app.use('/ai', aiRoutes);
     app.use('/admin', adminRoutes);
-    app.use('/price', pricingRoute)
+    app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
 
     app.get('/', (req, res) => {
