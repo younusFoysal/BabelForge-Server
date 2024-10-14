@@ -1,33 +1,28 @@
 const { findUserByEmail, updateUser, addAllUser, findAllUsers } = require('../services/userService');
 const { getUsersCollection } = require('../models/userModel');
 
-// Mocking the userModel module
 jest.mock('../models/userModel');
 
 describe('User Service Tests', () => {
-  const mockDb = {};  // Mock DB connection
+  const mockDb = {};
 
   beforeEach(() => {
-    jest.clearAllMocks();  // Clear mocks before each test
+    jest.clearAllMocks();
   });
 
-  // Test findUserByEmail
   test('should find a user by email', async () => {
-    const mockUser = { email: 'testuser@example.com', name: 'Test User' };
-
-    // Mock the getUsersCollection to return an object with the findOne method
+    const mockUser = { email: 'tarek@test.com', name: 'Shikder' };
     getUsersCollection.mockReturnValue({
       findOne: jest.fn().mockResolvedValue(mockUser),
     });
 
-    const result = await findUserByEmail(mockDb, 'testuser@example.com');
-    expect(result).toEqual(mockUser);  // Expect the result to be the mock user
+    const result = await findUserByEmail(mockDb, 'tarek@test.com');
+    expect(result).toEqual(mockUser);
     expect(getUsersCollection).toHaveBeenCalledWith(mockDb);
   });
 
-  // Test updateUser
   test('should update a user', async () => {
-    const mockUser = { email: 'testuser@example.com', name: 'Updated User' };
+    const mockUser = { email: 'tarek@test.com', name: 'Shikder Tarek' };
     const mockUpdateResponse = { modifiedCount: 1 };
 
     getUsersCollection.mockReturnValue({
@@ -35,7 +30,7 @@ describe('User Service Tests', () => {
     });
 
     const result = await updateUser(mockDb, mockUser);
-    expect(result).toEqual(mockUpdateResponse);  // Expect the update response
+    expect(result).toEqual(mockUpdateResponse);
     expect(getUsersCollection).toHaveBeenCalledWith(mockDb);
     expect(getUsersCollection().updateOne).toHaveBeenCalledWith(
       { email: mockUser.email },
@@ -44,7 +39,6 @@ describe('User Service Tests', () => {
     );
   });
 
-  // Test addAllUser
   test('should add a user', async () => {
     const mockUser = { email: 'newuser@example.com', name: 'New User' };
     const mockInsertResponse = { insertedId: 'newUserId' };
@@ -59,7 +53,6 @@ describe('User Service Tests', () => {
     expect(getUsersCollection().insertOne).toHaveBeenCalledWith(mockUser);
   });
 
-  // Test findAllUsers
   test('should return all users', async () => {
     const mockUsers = [
       { email: 'user1@example.com', name: 'User One' },
@@ -73,7 +66,7 @@ describe('User Service Tests', () => {
     });
 
     const result = await findAllUsers(mockDb);
-    expect(result).toEqual(mockUsers);  // Expect the array of users
+    expect(result).toEqual(mockUsers);
     expect(getUsersCollection().find().toArray).toHaveBeenCalled();
   });
 });

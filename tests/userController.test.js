@@ -22,10 +22,9 @@ jest.mock('../services/userService');
 jest.mock('bcrypt');
 jest.mock('../utils/helpers');
 
-// Create an Express app instance to use for testing
 const app = express();
 app.use(express.json());
-app.locals.db = {}; // Mock db object
+app.locals.db = {};
 
 app.post('/jwt', createJwtToken);
 app.get('/logout', logout);
@@ -37,10 +36,9 @@ app.get('/users', getAllUsers);
 
 describe('User Controller Tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks(); // Clear mocks before each test
+    jest.clearAllMocks();
   });
 
-  // Test createJwtToken
   test('should create a JWT token and set a cookie', async () => {
     const mockToken = 'testToken';
     generateJwtToken.mockReturnValue(mockToken);
@@ -58,7 +56,6 @@ describe('User Controller Tests', () => {
     expect(response.body.success).toBe(true);
   });
 
-  // Test logout
   test('should clear the JWT cookie on logout', async () => {
     const response = await request(app).get('/logout');
     expect(response.status).toBe(200);
@@ -66,9 +63,6 @@ describe('User Controller Tests', () => {
     expect(response.body.success).toBe(true);
   });
 
- 
-
-  // Test addUser
   test('should add a new user and hash their password', async () => {
     const mockUser = { email: 'testuser@example.com', password: 'password' };
     const hashedPassword = 'hashedPassword';
@@ -88,7 +82,6 @@ describe('User Controller Tests', () => {
     });
   });
 
-  // Test addUser for existing user
   test('should not add a user if the email already exists', async () => {
     const mockUser = { email: 'testuser@example.com', password: 'password' };
     findUserByEmail.mockResolvedValue(mockUser);
@@ -102,7 +95,6 @@ describe('User Controller Tests', () => {
     expect(response.body.message).toBe('User already exists');
   });
 
-  // Test updateUserProfile
   test('should update the user profile', async () => {
     const mockUser = { email: 'testuser@example.com', name: 'Updated User' };
     updateUser.mockResolvedValue({ modifiedCount: 1 });
@@ -116,7 +108,6 @@ describe('User Controller Tests', () => {
     expect(response.body.modifiedCount).toBe(1);
   });
 
-  // Test getUser
   test('should return a user by email', async () => {
     const mockUser = { email: 'testuser@example.com', name: 'Test User' };
     findUserByEmail.mockResolvedValue(mockUser);
@@ -128,7 +119,6 @@ describe('User Controller Tests', () => {
     expect(response.body).toEqual(mockUser);
   });
 
-  // Test getAllUsers
   test('should return all users', async () => {
     const mockUsers = [
       { email: 'user1@example.com', name: 'User One' },

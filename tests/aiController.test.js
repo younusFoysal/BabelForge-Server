@@ -13,13 +13,13 @@ describe('AI Controller Tests', () => {
             body: {},
         };
         mockRes = {
-            status: jest.fn().mockReturnThis(), // Chainable
+            status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
     });
 
     afterEach(() => {
-        jest.clearAllMocks(); // Clear mocks after each test
+        jest.clearAllMocks();
     });
 
     test('should return 400 if prompt is missing', async () => {
@@ -34,11 +34,11 @@ describe('AI Controller Tests', () => {
         const mockAIResponse = 'Hello! How can I assist you today?';
 
         mockReq.body.prompt = mockPrompt;
-        startChat.mockResolvedValue(mockAIResponse); // Mocking the AI service response
+        startChat.mockResolvedValue(mockAIResponse);
 
         await getAIResponse(mockReq, mockRes);
 
-        expect(startChat).toHaveBeenCalledWith(mockPrompt); // Check if startChat was called with the prompt
+        expect(startChat).toHaveBeenCalledWith(mockPrompt);
         expect(mockRes.status).toHaveBeenCalledWith(200);
         expect(mockRes.json).toHaveBeenCalledWith({ response: mockAIResponse });
     });
@@ -46,11 +46,11 @@ describe('AI Controller Tests', () => {
     test('should return 500 if AI response fetching fails', async () => {
         const mockPrompt = 'Hello, AI!';
         mockReq.body.prompt = mockPrompt;
-        startChat.mockRejectedValue(new Error('AI service error')); // Mocking an error from the AI service
+        startChat.mockRejectedValue(new Error('AI service error'));
 
         await getAIResponse(mockReq, mockRes);
 
-        expect(startChat).toHaveBeenCalledWith(mockPrompt); // Check if startChat was called with the prompt
+        expect(startChat).toHaveBeenCalledWith(mockPrompt);
         expect(mockRes.status).toHaveBeenCalledWith(500);
         expect(mockRes.json).toHaveBeenCalledWith({ message: 'Failed to fetch AI response.' });
     });
