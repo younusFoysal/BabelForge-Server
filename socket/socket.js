@@ -6,8 +6,9 @@ let io;
 const initSocket = (server, db) => {
     io = new Server(server, {
         cors: {
-            origin: ["https://babel-forge.vercel.app"],
+            origin: ['https://babel-forge.vercel.app', 'http://localhost:3000'],
             methods: ["GET", "POST"],
+            credentials: true,
         },
     });
 
@@ -19,7 +20,7 @@ const initSocket = (server, db) => {
     // });
 
     io.on("connection", (socket) => {
-        console.log("New User connected:", socket.id);
+        console.log("New user connected:", socket.id);
 
         // Send previous messages to newly connected client
         chatService.getAllMessages(db).then((messages) => {
