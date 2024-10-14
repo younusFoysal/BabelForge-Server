@@ -34,8 +34,6 @@ const corsOptions = {
     "http://localhost:3001",
     "https://babel-forge.vercel.app",
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -45,9 +43,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 connectToDatabase()
-    .then((db) => {
-        app.locals.db = db;
-        console.log("Connected To MongoDB");
+  .then((db) => {
+    app.locals.db = db;
+    console.log("Connected to MongoDB");
 
     app.use("/api", userRoutes);
     app.use("/task", taskRoutes);
@@ -62,18 +60,18 @@ connectToDatabase()
     app.use("/admin", adminRoutes);
     app.use("/price", pricingRoute);
     app.use("/pay", paymentRoute);
-    app.use("/webhook", webhookRoute);
+    app.use("/", webhookRoute);
 
-        app.get("/", (req, res) => {
-            res.send("Babel Server is Running...");
-        });
+    app.get("/", (req, res) => {
+      res.send("Babel Server is Running...");
+    });
 
-        // Initialize Socket.IO with the database
-        initSocket(server, db);
+    // Initialize Socket.IO with the database
+    initSocket(server, db);
 
-        // Start server
-        server.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-        });
-    })
-    .catch((err) => console.error("Error connecting to MongoDB", err));
+    // Start server
+    server.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => console.error("Error connecting to MongoDB", err));
