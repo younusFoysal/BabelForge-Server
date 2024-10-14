@@ -33,9 +33,8 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:3001",
     "https://babel-forge.vercel.app",
+    "https://babel-forge-project.vercel.app"
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Authorization', 'Content-Type'],
   credentials: true,
   optionSuccessStatus: 200,
 };
