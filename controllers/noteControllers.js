@@ -20,6 +20,19 @@ const createNote = async (req, res) => {
     res.send(result);
 };
 
+// Get my notes.
+const getMyNotes = async (req, res) => {
+    const db = req.app.locals.db;
+    const noteCollection = getNoteCollection(db);
+    const email = req.params.email;
+    const query = { email: email };
+    const result = await noteCollection.find(query).toArray();
+    if (result.length === 0) {
+        return res.status(404).send({ message: 'No teams found with that member' });
+    }
+    res.send(result);
+};
+
 // Update note
 const updateNote = async (req, res) => {
     const db = req.app.locals.db;
@@ -63,6 +76,7 @@ const deleteNote = async (req, res) => {
 
 module.exports = {
     getAllNotes,
+    getMyNotes,
     createNote,
     updateNote,
     deleteNote
