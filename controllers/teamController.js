@@ -54,10 +54,12 @@ const updateTeam = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const id = req.params.id;
+  console.log(id);
   const query = { _id: new ObjectId(id) };
 
   // please use the same name while passing data to the server from frontend
-  const { addMember, removeMember, addLink, removeLink, name, description, coverImage } = req.body;
+  const { addMember, removeMember, addLink, removeLink, tname, tdes, tpic, tcategory } = req.body;
+  console.log(req.body);
 
   let updateFields = {};
 
@@ -76,14 +78,17 @@ const updateTeam = async (req, res) => {
   }
 
   // Conditionally update name, description, and coverImage using $set
-  if (name) {
-    updateFields.$set = { name };
+  if (tname) {
+    updateFields.$set = { tname };
   }
-  if (description) {
-    updateFields.$set = { description };
+  if (tdes) {
+    updateFields.$set = { tdes };
   }
-  if (coverImage) {
-    updateFields.$set = { coverImage };
+  if (tpic) {
+    updateFields.$set = { tpic };
+  }
+  if (tcategory) {
+    updateFields.$set = { tcategory };
   }
 
   try {
