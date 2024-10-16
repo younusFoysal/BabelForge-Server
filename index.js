@@ -19,6 +19,7 @@ const reviewRoute = require('./routes/reviewRoute');
 const adminRoutes = require('./routes/adminRoutes');
 const pricingRoute = require('./routes/pricingRoutes');
 const paymentRoute = require('./routes/paymentRoute');
+const webhookRoute = require('./routes/webhokRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -32,6 +33,7 @@ const corsOptions = {
     'http://localhost:3000',
     'http://localhost:3001',
     'https://babel-forge.vercel.app',
+    'https://babel-forge-project.vercel.app',
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -59,6 +61,7 @@ connectToDatabase()
     app.use('/admin', adminRoutes);
     app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
+    app.use('/', webhookRoute);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
