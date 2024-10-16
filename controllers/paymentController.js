@@ -17,14 +17,16 @@ const getAllPayment = async(req,res)=>{
     res.send(result);
 }
 
-const getSinglePayment = async(req,res)=>{
+const getUserPayment = async(req,res)=>{
     const db = req.app.locals.db;
     const email = req.params.email;
+    console.log(email);
+    
     const query = {email: email}
     const paymentCollection = getPaymentCollection(db);
-    const result = await paymentCollection.findOne(query);
+    const result = await paymentCollection.find(query).toArray();
     res.send(result);
 
 }
 
-module.exports= {addPayment, getAllPayment, getSinglePayment}
+module.exports= {addPayment, getAllPayment, getUserPayment}
