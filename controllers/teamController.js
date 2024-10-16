@@ -32,6 +32,17 @@ const getOneTeam = async (req, res) => {
   res.send(result);
 };
 
+// Get teams under a project
+const getTeamsOfProject = async (req, res) => {
+  const db = req.app.locals.db;
+  const teamCollection = getTeamsCollection(db);
+  const projectId = req.params.id;
+  // console.log(projectId);
+  const query = { tproject: projectId }
+  const result = await teamCollection.find(query).toArray();
+  res.send(result);
+}
+
 // Create a team
 const createTeam = async (req, res) => {
   const db = req.app.locals.db;
@@ -133,4 +144,5 @@ module.exports = {
   createTeam,
   updateTeam,
   deleteTeam,
+  getTeamsOfProject
 };
