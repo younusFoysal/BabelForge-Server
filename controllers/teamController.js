@@ -32,6 +32,17 @@ const getOneTeam = async (req, res) => {
   res.send(result);
 };
 
+// Get teams under a project
+const getTeamsOfProject = async (req, res) => {
+  const db = req.app.locals.db;
+  const teamCollection = getTeamsCollection(db);
+  const projectId = req.params.id;
+  // console.log(projectId);
+  const query = { tproject: projectId }
+  const result = await teamCollection.find(query).toArray();
+  res.send(result);
+}
+
 // Create a team
 const createTeam = async (req, res) => {
   const db = req.app.locals.db;
@@ -54,13 +65,15 @@ const updateTeam = async (req, res) => {
   const db = req.app.locals.db;
   const teamCollection = getTeamsCollection(db);
   const id = req.params.id;
+  console.log(`Updating team with ID: ${id}`);
   const query = { _id: new ObjectId(id) };
 
-  // please use the same name while passing data to the server from frontend
-  const { addMember, removeMember, addLink, removeLink, name, description, coverImage } = req.body;
+  const { addMember, removeMember, addLink, removeLink, tname, tdes, tpic, tcategory } = req.body;
+  console.log('Request body:', req.body);
 
-  let updateFields = {};
+  let updateFields = { $set: {} }; // Initialize $set to store multiple fields
 
+  // Handle member updates
   if (addMember) {
     updateFields.$addToSet = { members: addMember }; // Adds the member if not already in the array
   }
@@ -68,6 +81,7 @@ const updateTeam = async (req, res) => {
     updateFields.$pull = { members: removeMember }; // Removes the member from the array
   }
 
+  // Handle link updates
   if (addLink) {
     updateFields.$addToSet = { links: addLink }; // Adds the link only if it’s not already in the array
   }
@@ -75,15 +89,23 @@ const updateTeam = async (req, res) => {
     updateFields.$pull = { links: removeLink }; // Removes the link (string) from the links array
   }
 
-  // Conditionally update name, description, and coverImage using $set
-  if (name) {
-    updateFields.$set = { name };
+  // Conditionally update name, description, and other fields
+  if (tname) {
+    updateFields.$set.tname = tname;
   }
-  if (description) {
-    updateFields.$set = { description };
+  if (tdes) {
+    updateFields.$set.tdes = tdes;
   }
-  if (coverImage) {
-    updateFields.$set = { coverImage };
+  if (tpic) {
+    updateFields.$set.tpic = tpic;
+  }
+  if (tcategory) {
+    updateFields.$set.tcategory = tcategory;
+  }
+
+  // Remove $set if it's empty
+  if (Object.keys(updateFields.$set).length === 0) {
+    delete updateFields.$set;
   }
 
   try {
@@ -97,11 +119,13 @@ const updateTeam = async (req, res) => {
       return res.status(400).send({ message: 'No changes made or data already exists' });
     }
 
-    res.send(result);
+    res.send({ message: 'Team updated successfully', result });
   } catch (error) {
+    console.error('Error updating team:', error);
     res.status(500).send({ message: 'Error updating team', error });
   }
 };
+
 
 // Delete team
 const deleteTeam = async (req, res) => {
@@ -120,4 +144,5 @@ module.exports = {
   createTeam,
   updateTeam,
   deleteTeam,
+  getTeamsOfProject
 };

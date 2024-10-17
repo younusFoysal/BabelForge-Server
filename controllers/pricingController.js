@@ -24,7 +24,9 @@ const updatePrice = async (req, res) => {
     const id = req.params.id;
     const priceCollection = getPricingCollection(db);
     const query = { _id: new ObjectId(id) };
-    const { title, price, priceDetails, featuresTitle, features, buttonText } = req.body;
+    const { title, price, priceDetails, featuresTitle, projects, team, task, groupchat, canvas, BabelAi, meeting } = req.body;
+
+    // console.log(title, price, priceDetails, featuresTitle, projects, team, task, groupchat, canvas, BabelAi, meeting);
 
     const update = {
         $set: {
@@ -32,8 +34,13 @@ const updatePrice = async (req, res) => {
             ...(price && { price }),
             ...(priceDetails && { priceDetails }),
             ...(featuresTitle && { featuresTitle }),
-            ...(features && { features }),
-            ...(buttonText && { buttonText }),
+            ...(projects && { projects }),
+            ...(team && { team }),
+            ...(task && { task }),
+            groupchat,
+            canvas,
+            BabelAi,
+            meeting
         }
     };
 

@@ -1,9 +1,9 @@
 const express = require('express');
-const { addPayment, getAllPayment, getSinglePayment } = require('../controllers/paymentController');
+const { addPayment, getAllPayment, getUserPayment } = require('../controllers/paymentController');
 const router = express.Router();
 
 router.post('/payment',addPayment);
 router.get('/payments',getAllPayment);
-router.get('/payment-single/:email', getSinglePayment);
+router.get('/payments/:email', getUserPayment);
 
 module.exports = router;
