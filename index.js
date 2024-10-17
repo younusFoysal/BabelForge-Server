@@ -66,7 +66,7 @@ connectToDatabase()
     app.use("/webhook", webhookRoute);
 
     app.get("/", (req, res) => {
-      res.send("Babel Server is Running...");
+      res.send("Babel Server Is Running...");
     });
 
     // Initialize Socket.IO with the database
