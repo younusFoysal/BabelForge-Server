@@ -20,28 +20,6 @@ const adminRoutes = require('./routes/adminRoutes');
 const pricingRoute = require('./routes/pricingRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const webhookRoute = require('./routes/webhokRoute');
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-require('dotenv').config();
-const { MongoClient } = require('mongodb');
-const userRoutes = require('./routes/userRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const teamRoutes = require('./routes/teamRoutes');
-const projectRoute = require('./routes/projectRoute');
-const dashRoute = require('./routes/dashRoute');
-const visitorRoutes = require('./routes/visitorRoutes');
-const messageRoute = require('./routes/messageRoute');
-const chatRoutes = require('./routes/chatRoutes'); // Chat Routes
-const aiRoutes = require('./routes/aiRoutes');
-const { initSocket } = require('./socket/socket');
-const connectToDatabase = require('./config/db'); // Socket.IO initialization
-const reviewRoute = require('./routes/reviewRoute');
-const adminRoutes = require('./routes/adminRoutes');
-const pricingRoute = require('./routes/pricingRoutes');
-const paymentRoute = require('./routes/paymentRoute');
-const webhookRoute = require('./routes/webhokRoute');
 const noteRoutes = require('./routes/noteRoutes');
 
 const app = express();
@@ -84,22 +62,8 @@ connectToDatabase()
     app.use('/admin', adminRoutes);
     app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
-    app.use('/', webhookRoute);
-    app.use('/api', userRoutes);
-    app.use('/task', taskRoutes);
-    app.use('/team', teamRoutes);
-    app.use('/project', projectRoute);
-    app.use('/message', messageRoute);
-    app.use('/dashboard', dashRoute);
-    app.use('/chat', chatRoutes);
-    app.use('/api', visitorRoutes);
-    app.use('/api', reviewRoute);
-    app.use('/ai', aiRoutes);
-    app.use('/admin', adminRoutes);
-    app.use('/price', pricingRoute);
-    app.use('/pay', paymentRoute);
-    app.use('/', webhookRoute);
     app.use('/note', noteRoutes);
+    app.use('/webhook', webhookRoute);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
