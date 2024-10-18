@@ -75,10 +75,10 @@ const updateTeam = async (req, res) => {
 
   // Handle member updates
   if (addMember) {
-    updateFields.$addToSet = { members: addMember }; // Adds the member if not already in the array
+    updateFields.$addToSet = { tmembers: addMember }; // Adds the member if not already in the array
   }
   if (removeMember) {
-    updateFields.$pull = { members: removeMember }; // Removes the member from the array
+    updateFields.$pull = { tmembers: removeMember }; // Removes the member from the array
   }
 
   // Handle link updates
