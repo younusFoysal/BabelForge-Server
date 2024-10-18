@@ -29,9 +29,9 @@ const postMessage = async (req, res) => {
 // Controller to delete all messages
 const deleteAllMessages = async (req, res) => {
     try {
-        console.log("Delete all messages called");
+        //console.log("Delete all messages called");
         const result = await chatService.deleteAllMessage(req.app.locals.db);
-        console.log(`Deleted ${result.deletedCount} messages`);
+        //console.log(`Deleted ${result.deletedCount} messages`);
         res.status(204).send(); // No Content
     } catch (error) {
         res.status(500).json({ error: 'Failed to delete messages' });
