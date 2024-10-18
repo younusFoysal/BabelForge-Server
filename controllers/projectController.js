@@ -41,7 +41,7 @@ const getProjects = async (req, res) => {
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, email } = req.query;
-  console.log(name, email);
+  //console.log(name, email);
   let query = {};
 
   if (name?.length) {
