@@ -26,6 +26,15 @@ const getTaskDetails = async (req, res) => {
     }
 };
 
+// Get my tasks
+
+const getMyTasks = async (req, res) => {
+    const db = req.app.locals.db;
+    const tasksCollection = getTasksCollection(db);
+    const email = req.params.email;
+    
+}
+
 // Add a new task
 const addTask = async (req, res) => {
     const db = req.app.locals.db;
@@ -57,4 +66,4 @@ const deleteTask = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask };
+module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks };
