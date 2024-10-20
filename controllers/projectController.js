@@ -100,7 +100,7 @@ const updateProject = async (req, res) => {
   };
 
   // console.log("pi c", projectId);
-  // console.log("pi c", pedate);
+  console.log("pi c", pmanager);
 
   // Conditionally update fields using $set
   if (pname) updateFields.$set.pname = pname;
