@@ -26,6 +26,32 @@ const getTaskDetails = async (req, res) => {
     }
 };
 
+// Get my tasks
+
+const getMyTasks = async (req, res) => {
+    const db = req.app.locals.db;
+    const tasksCollection = getTasksCollection(db);
+    const email = req.params.email;
+    const query = {
+        $or: [
+            { author: email },
+            { tassignTo: email }
+        ]
+    }
+
+    try {
+        const result = await tasksCollection.find(query).toArray();
+
+        if (result.length === 0) {
+            return res.status(404).send({ message: 'No tasks found for the given email' });
+        }
+
+        res.send(result);
+    } catch (error) {
+        return res.status(500).send({ message: 'Error retrieving tasks' });
+    }
+}
+
 // Add a new task
 const addTask = async (req, res) => {
     const db = req.app.locals.db;
@@ -57,4 +83,4 @@ const deleteTask = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask };
+module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks };
