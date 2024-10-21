@@ -38,7 +38,7 @@ const getDocumentById = async (req, res) => {
       return res.status(404).json({ message: "Document not found" });
     }
 
-    res.status(200).json({ content: document.content });
+    res.status(200).json({ content: document });
   } catch (error) {
     console.error("Error retrieving document:", error);
     res.status(500).json({ message: "Failed to retrieve document", error });
