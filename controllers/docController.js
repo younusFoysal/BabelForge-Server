@@ -1,6 +1,7 @@
 // controllers/documentController.js
 const { ObjectId } = require('mongodb');
 const { addDocumentService, getDocumentByIdService } = require("../services/docService");
+const { getDocumentCollection } = require('../models/docModel');
 
 const addDocument = async (req, res) => {
     const db = req.app.locals.db;
@@ -14,11 +15,17 @@ const addDocument = async (req, res) => {
 
 const getUserDocuments = async (req, res) => {
     const db = req.app.locals.db;
-    const { email } = req.query;
-
-    const documentsCollection = getDocumentsCollection(db);
-    const userDocuments = await documentsCollection.find({ email }).toArray();
-    res.send(userDocuments);
+    const {email} = req.params; // Get user email from params
+    console.log("Email:", email);
+    
+    try {
+        const documentCollection = getDocumentCollection(db);
+        const documents = await documentCollection.find({ email }).toArray(); // Fetch documents for the email
+        res.send(documents);
+    } catch (error) {
+        console.error("Error fetching user documents:", error);
+        res.status(500).send("Internal Server Error");
+    }
 };
 
 const getDocumentById = async (req, res) => {
