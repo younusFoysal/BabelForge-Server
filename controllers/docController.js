@@ -3,21 +3,22 @@ const { ObjectId } = require('mongodb');
 const { addDocumentService, getDocumentByIdService } = require("../services/docService");
 
 const addDocument = async (req, res) => {
-  const db = req.app.locals.db;
-  const documentContent = req.body.content;
+    const db = req.app.locals.db;
+    const { content, email } = req.body; // Get content and email from request body
+    const data = { content, email };
+    console.log(data);
+    
+    const result = await addDocumentService(db, data); // Pass email to service
+    res.send({ docId: result.insertedId }); // Return the document ID
+};
 
-  try {
-    const newDocument = {
-      content: documentContent,
-      createdAt: new Date(),
-    };
+const getUserDocuments = async (req, res) => {
+    const db = req.app.locals.db;
+    const { email } = req.query;
 
-    const result = await addDocumentService(db, newDocument);
-    res.status(201).json({ message: "Document saved successfully", docId: result.insertedId });
-  } catch (error) {
-    console.error("Error saving document:", error);
-    res.status(500).json({ message: "Failed to save document", error });
-  }
+    const documentsCollection = getDocumentsCollection(db);
+    const userDocuments = await documentsCollection.find({ email }).toArray();
+    res.send(userDocuments);
 };
 
 const getDocumentById = async (req, res) => {
@@ -54,4 +55,4 @@ const deleteDocument = async (req, res) => {
     }
   };
 
-module.exports = { addDocument, getDocumentById, deleteDocument };
+module.exports = { addDocument, getDocumentById, deleteDocument, getUserDocuments };

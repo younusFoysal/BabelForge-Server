@@ -4,4 +4,10 @@ const getDocumentCollection = (db) => {
   return db.collection("documents");
 };
 
-module.exports = { getDocumentCollection };
+const createDocument = async (db, { content, email }) => {
+    const documentsCollection = getDocumentsCollection(db);
+    
+    return documentsCollection.insertOne({ content, email });
+};
+
+module.exports = { getDocumentCollection, createDocument };
