@@ -45,8 +45,54 @@ const getMyTasks = async (req, res) => {
         if (result.length === 0) {
             return res.status(404).send({ message: 'No tasks found for the given email' });
         }
-
+        // console.log(result);
         res.send(result);
+    } catch (error) {
+        return res.status(500).send({ message: 'Error retrieving tasks' });
+    }
+}
+
+// Helper function to convert the date and time
+// function convertToDateTime(dateStr, timeStr) {
+//     const [year, month, day] = dateStr.split('-').map(Number);
+//     let [hour, minute] = timeStr.split(':').map(Number);
+//     const period = timeStr.slice(-2); // AM or PM
+
+//     // Convert 12-hour format to 24-hour format
+//     if (period === 'PM' && hour !== 12) hour += 12;
+//     if (period === 'AM' && hour === 12) hour = 0;
+
+//     return new Date(year, month - 1, day, hour, minute); // monthIndex is 0-based
+// }
+
+// Get tasks for calendar event
+const getEvents = async (req, res) => {
+    const db = req.app.locals.db;
+    const tasksCollection = getTasksCollection(db);
+    const email = req.params.email;
+    const query = {
+        $or: [
+            { author: email },
+            { tassignTo: email }
+        ]
+    }
+
+    try {
+        const result = await tasksCollection.find(query).toArray();
+
+        if (result.length === 0) {
+            return res.status(404).send({ message: 'No tasks found for the given email' });
+        }
+        // console.log("events: ", result);
+        const events = result.map(task => ({
+            title: task.tname,
+            start: task.tdate,
+            end: task.tdate,
+            description: task.tdes,
+            status: task.tproces,
+            allDay: false,
+        }));
+        res.send(events);
     } catch (error) {
         return res.status(500).send({ message: 'Error retrieving tasks' });
     }
@@ -83,4 +129,4 @@ const deleteTask = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks };
+module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks, getEvents };
