@@ -18,9 +18,17 @@ const getDocumentByIdService = async (db, id) => {
   return documentCollection.findOne({ _id: new ObjectId(id) });
 };
 
+const updateDocumentService = async (db, id, updatedData) => {
+  const documentCollection = db.collection('documents');
+  return await documentCollection.updateOne(
+      { _id: new ObjectId(id) }, 
+      { $set: updatedData } 
+  );
+};
+
 const deleteDocumentService = async (db, id) => {
     const documentCollection = getDocumentCollection(db);
     return documentCollection.deleteOne({ _id: new ObjectId(id) });
   };
 
-module.exports = { addDocumentService, getDocumentByIdService, deleteDocumentService };
+module.exports = { addDocumentService, getDocumentByIdService, deleteDocumentService, updateDocumentService };
