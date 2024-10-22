@@ -5,8 +5,8 @@ const { getDocumentCollection } = require('../models/docModel');
 
 const addDocument = async (req, res) => {
     const db = req.app.locals.db;
-    const { content, email } = req.body; 
-    const data = { content, email };
+    const { email } = req.body; 
+    const data = { email };
     
     const result = await addDocumentService(db, data); 
     res.send({ docId: result.insertedId });

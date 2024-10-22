@@ -6,8 +6,7 @@ const addDocumentService = async (db, { content, email }) => {
     const documentCollection = getDocumentCollection(db);
     
     const documentData = {
-        content,
-        email: email,
+        email,
         createdAt: new Date(),
     };
     
