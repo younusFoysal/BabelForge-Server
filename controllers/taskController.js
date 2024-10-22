@@ -85,12 +85,13 @@ const getEvents = async (req, res) => {
         }
         // console.log("events: ", result);
         const events = result.map(task => ({
-            title: task.tname,
-            start: task.tdate,
-            end: task.tdate,
-            description: task.tdes,
-            status: task.tproces,
-            allDay: false,
+            title: task?.tname,
+            start: task?.tdate,
+            end: task?.tdate,
+            description: task?.tdes,
+            status: task?.tproces,
+            author: task?.author,
+            allDay: true,
         }));
         res.send(events);
     } catch (error) {
