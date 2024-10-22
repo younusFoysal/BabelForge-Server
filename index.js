@@ -13,7 +13,6 @@ const visitorRoutes = require('./routes/visitorRoutes');
 const messageRoute = require('./routes/messageRoute');
 const chatRoutes = require('./routes/chatRoutes'); // Chat Routes
 const aiRoutes = require('./routes/aiRoutes');
-const { initSocket } = require('./socket/socket');
 const connectToDatabase = require('./config/db'); // Socket.IO initialization
 const reviewRoute = require('./routes/reviewRoute');
 const adminRoutes = require('./routes/adminRoutes');
@@ -21,6 +20,7 @@ const pricingRoute = require('./routes/pricingRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const webhookRoute = require('./routes/webhokRoute');
 const noteRoutes = require('./routes/noteRoutes');
+const docRoutes = require('./routes/docRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -63,14 +63,14 @@ connectToDatabase()
     app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
     app.use('/note', noteRoutes);
+    app.use('/document', docRoutes);
     app.use('/webhook', webhookRoute);
 
     app.get('/', (req, res) => {
-      res.send('Babel Server is Running...');
+      res.send('Babel Server Is Running...');
     });
 
     // Initialize Socket.IO with the database
-    initSocket(server, db);
 
     // Start server
     server.listen(port, () => {
