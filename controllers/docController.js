@@ -47,7 +47,6 @@ const updateDocument = async (req, res) => {
   const db = req.app.locals.db;
   const { id } = req.params; 
   const { content, email } = req.body;
-  console.log(req.body);
   
 
   try {
