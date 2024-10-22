@@ -62,8 +62,8 @@ connectToDatabase()
     app.use('/admin', adminRoutes);
     app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
+    app.use('/', webhookRoute);
     app.use('/note', noteRoutes);
-    app.use('/webhook', webhookRoute);
 
     app.get('/', (req, res) => {
       res.send('Babel Server is Running...');
