@@ -75,10 +75,10 @@ const updateTeam = async (req, res) => {
 
   // Handle member updates
   if (addMember) {
-    updateFields.$addToSet = { members: addMember }; // Adds the member if not already in the array
+    updateFields.$addToSet = { tmembers: addMember }; // Adds the member if not already in the array
   }
   if (removeMember) {
-    updateFields.$pull = { members: removeMember }; // Removes the member from the array
+    updateFields.$pull = { tmembers: removeMember }; // Removes the member from the array
   }
 
   // Handle link updates
@@ -112,11 +112,13 @@ const updateTeam = async (req, res) => {
     const result = await teamCollection.updateOne(query, updateFields);
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ message: 'Team not found' });
+      return res.status(404).send({ message: "Team not found" });
     }
 
     if (result.modifiedCount === 0) {
-      return res.status(400).send({ message: 'No changes made or data already exists' });
+      return res
+        .status(400)
+        .send({ message: "No changes made or data already exists" });
     }
 
     res.send({ message: 'Team updated successfully', result });
