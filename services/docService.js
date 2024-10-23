@@ -2,13 +2,16 @@
 const { ObjectId } = require("mongodb");
 const { getDocumentCollection, createDocument } = require("../models/docModel");
 
-const addDocumentService = async (db, { content, email }) => {
+const addDocumentService = async (db, { title, content, email }) => {
     const documentCollection = getDocumentCollection(db);
     
     const documentData = {
+        title,
         email,
         createdAt: new Date(),
     };
+
+    
     
     return documentCollection.insertOne(documentData); 
 };
