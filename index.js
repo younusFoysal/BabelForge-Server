@@ -20,7 +20,7 @@ const pricingRoute = require('./routes/pricingRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const webhookRoute = require('./routes/webhokRoute');
 const noteRoutes = require('./routes/noteRoutes');
-const docRoutes = require('./routes/docRoute');
+// const docRoutes = require('./routes/docRoute');
 
 const app = express();
 const server = http.createServer(app);
@@ -63,7 +63,7 @@ connectToDatabase()
     app.use('/price', pricingRoute);
     app.use('/pay', paymentRoute);
     app.use('/note', noteRoutes);
-    app.use('/document', docRoutes);
+    // app.use('/document', docRoutes);
     app.use('/webhook', webhookRoute);
 
     app.get('/', (req, res) => {
