@@ -99,14 +99,17 @@ const updateProject = async (req, res) => {
     $set: {},
   };
 
+  // console.log("pi c", projectId);
+  console.log("pi c", pmanager);
+
   // Conditionally update fields using $set
   if (pname) updateFields.$set.pname = pname;
   if (pdes) updateFields.$set.pdes = pdes;
   if (pimg) updateFields.$set.pimg = pimg;
   if (pcategory) updateFields.$set.pcategory = pcategory;
   if (pmanager) updateFields.$set.pmanager = pmanager;
-  if (psdate) updateFields.$set.psdate = new Date(psdate); // Convert date to correct format
-  if (pedate) updateFields.$set.pedate = new Date(pedate); // Convert date to correct format
+  if (psdate) updateFields.$set.psdate = psdate;
+  if (pedate) updateFields.$set.pedate = pedate;
   if (purl) updateFields.$set.purl = purl;
 
   if (favorite !== undefined) {
