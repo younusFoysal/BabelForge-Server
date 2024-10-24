@@ -21,7 +21,7 @@ const deleteProjects = async (db, projectId) => {
 
 // update projects
 const updateProjects = async (db, filter, updateProject) => {
-  // console.log(updateProject);
+  // console.log("update: ",updateProject);
   const projectsCollection = getProjectsCollection(db);
   return await projectsCollection.updateOne(filter, updateProject);
 }
