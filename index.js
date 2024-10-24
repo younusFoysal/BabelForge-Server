@@ -34,7 +34,7 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:3001",
     "https://babel-forge.vercel.app",
-    "https://babel-forge-project.vercel.app"
+    "https://babel-forge-project.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -63,7 +63,7 @@ connectToDatabase()
     app.use("/price", pricingRoute);
     app.use("/pay", paymentRoute);
     app.use("/note", noteRoutes);
-    app.use("/document", docRoutes)
+    app.use("/document", docRoutes);
     app.use("/webhook", webhookRoute);
 
     app.get("/", (req, res) => {
@@ -71,9 +71,6 @@ connectToDatabase()
     });
 
     // Initialize Socket.IO with the database
-
-
-
 
     // Start server
     server.listen(port, () => {

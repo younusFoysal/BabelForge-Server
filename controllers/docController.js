@@ -1,12 +1,12 @@
 // controllers/documentController.js
 const { ObjectId } = require('mongodb');
-const { addDocumentService, getDocumentByIdService, updateDocumentService } = require("../services/docService");
+const { addDocumentService, getDocumentByIdService, updateDocumentService, deleteDocumentService } = require("../services/docService");
 const { getDocumentCollection } = require('../models/docModel');
 
 const addDocument = async (req, res) => {
     const db = req.app.locals.db;
     const { email } = req.body; 
-    const data = { email };
+    const data = {title: "Untitled Document", content:"", email };
     
     const result = await addDocumentService(db, data); 
     res.send({ docId: result.insertedId });
@@ -46,9 +46,9 @@ const getDocumentById = async (req, res) => {
 const updateDocument = async (req, res) => {
   const db = req.app.locals.db;
   const { id } = req.params; 
-  const { content, email } = req.body;
+  const { title, content, email } = req.body;
   
-
+    
   try {
       const document = await getDocumentByIdService(db, id); 
       if (!document) {
@@ -59,7 +59,7 @@ const updateDocument = async (req, res) => {
           return res.status(403).json({ message: "Unauthorized to update this document" });
       }
 
-      const updatedData = { content };
+      const updatedData = { title, content };
       const result = await updateDocumentService(db, id, updatedData); 
 
       if (result.matchedCount === 0) {
