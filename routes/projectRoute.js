@@ -7,6 +7,7 @@ const {
   getProjects,
   getsingleProject,
   getMyProjects,
+  getProjectMembers,
 } = require('../controllers/projectController');
 
 router.post('/projects', addPoject);
@@ -15,6 +16,9 @@ router.post('/projects', addPoject);
 router.get('/projects', getProjects);
 
 router.get('/projects/single/:id', getsingleProject);
+
+// Get project members
+router.get('/projects/members/:id', getProjectMembers);
 
 router.get('/projects/my-projects', getMyProjects);
 
