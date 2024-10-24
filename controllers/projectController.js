@@ -8,6 +8,8 @@ const {
   findMyProjects,
   searchAndFilterProject,
 } = require('../services/projectService');
+const { getProjectsCollection } = require('../models/projectModel');
+const { getUsersCollection } = require('../models/userModel');
 
 // add new project
 const addPoject = async (req, res) => {
@@ -41,7 +43,7 @@ const getProjects = async (req, res) => {
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, email } = req.query;
-  console.log(name, email);
+  // console.log(name, email);
   let query = {};
 
   if (name?.length) {
@@ -66,6 +68,28 @@ const getsingleProject = async (req, res) => {
   const result = await SingleProject(db, id);
   res.send(result);
 };
+
+// Get project members
+const getProjectMembers = async (req, res) => {
+  const projectId = req.params.id;
+  // console.log("id: ", projectId);
+  const db = req.app.locals.db;
+  const projectsCollection = getProjectsCollection(db);
+  const usersCollection = getUsersCollection(db);
+  const project = await projectsCollection.findOne({ _id: new ObjectId(projectId) });
+
+  if (!project) {
+    return res.status(404).json({ message: 'Project not found' });
+  }
+  // console.log("project: ", project);
+  const pallmembersEmails = project.pallmembers;
+
+  // console.log("members: ", pallmembersEmails);
+
+  const users = await usersCollection.find({ email: { $in: pallmembersEmails } }).toArray();
+
+  res.send(users);
+}
 
 // delete project
 const deleteProject = async (req, res) => {
@@ -93,14 +117,16 @@ const updateProject = async (req, res) => {
     pdes,
     pname,
     favorite,
+    pallmembers,
+    addMember
   } = project;
 
   let updateFields = {
     $set: {},
   };
 
-  // console.log("pi c", projectId);
-  console.log("pi c", pmanager);
+  console.log("pi c", projectId);
+  console.log("pi c", addMember);
 
   // Conditionally update fields using $set
   if (pname) updateFields.$set.pname = pname;
@@ -120,6 +146,10 @@ const updateProject = async (req, res) => {
   if (addTeam) {
     if (!updateFields.$addToSet) updateFields.$addToSet = {};
     updateFields.$addToSet.pteams = addTeam; // Adds the team if not already in the array
+  }
+
+  if (addMember) {
+    updateFields.$addToSet = { pallmembers: addMember }; // Adds the member if not already in the array
   }
 
   if (removeTeam) {
@@ -156,4 +186,5 @@ module.exports = {
   getsingleProject,
   updateProject,
   getMyProjects,
+  getProjectMembers
 };
