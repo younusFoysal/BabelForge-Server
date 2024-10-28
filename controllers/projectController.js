@@ -125,8 +125,8 @@ const updateProject = async (req, res) => {
     $set: {},
   };
 
-  console.log("pi c", projectId);
-  console.log("pi c", addMember);
+  // console.log("pi c", projectId);
+  // console.log("pi c", addMember);
 
   // Conditionally update fields using $set
   if (pname) updateFields.$set.pname = pname;
