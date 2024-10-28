@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 const {
   addProjects,
   deleteProjects,
@@ -7,9 +7,9 @@ const {
   SingleProject,
   findMyProjects,
   searchAndFilterProject,
-} = require('../services/projectService');
-const { getProjectsCollection } = require('../models/projectModel');
-const { getUsersCollection } = require('../models/userModel');
+} = require("../services/projectService");
+const { getProjectsCollection } = require("../models/projectModel");
+const { getUsersCollection } = require("../models/userModel");
 
 // add new project
 const addPoject = async (req, res) => {
@@ -29,15 +29,14 @@ const getProjects = async (req, res) => {
   if (name?.length && category?.length) {
     result = await searchAndFilterProject(db, name, category, email);
   } else if (name?.length) {
-    result = await searchAndFilterProject(db, name, '', email);
+    result = await searchAndFilterProject(db, name, "", email);
   } else if (category?.length) {
-    result = await searchAndFilterProject(db, '', category, email);
+    result = await searchAndFilterProject(db, "", category, email);
   } else {
     result = await getAllProjects(db);
   }
   res.send(result);
 };
-
 
 // Get all the projects i am in.
 const getMyProjects = async (req, res) => {
@@ -48,13 +47,12 @@ const getMyProjects = async (req, res) => {
 
   if (name?.length) {
     query = {
-      pname: { $regex: name, $options: 'i' },
+      pname: { $regex: name, $options: "i" },
       pallmembers: email,
     };
   } else {
     query = { pallmembers: email };
   }
-
 
   const result = await findMyProjects(db, query);
 
@@ -69,29 +67,29 @@ const getsingleProject = async (req, res) => {
   res.send(result);
 };
 
-// Get project members
 const getProjectMembers = async (req, res) => {
   const projectId = req.params.id;
-  // console.log("id: ", projectId);
+
   const db = req.app.locals.db;
   const projectsCollection = getProjectsCollection(db);
   const usersCollection = getUsersCollection(db);
-  const project = await projectsCollection.findOne({ _id: new ObjectId(projectId) });
+  const project = await projectsCollection.findOne({
+    _id: new ObjectId(projectId),
+  });
 
   if (!project) {
-    return res.status(404).json({ message: 'Project not found' });
+    return res.status(404).json({ message: "Project not found" });
   }
-  // console.log("project: ", project);
+
   const pallmembersEmails = project.pallmembers;
 
-  // console.log("members: ", pallmembersEmails);
-
-  const users = await usersCollection.find({ email: { $in: pallmembersEmails } }).toArray();
+  const users = await usersCollection
+    .find({ email: { $in: pallmembersEmails } })
+    .toArray();
 
   res.send(users);
-}
+};
 
-// delete project
 const deleteProject = async (req, res) => {
   const db = req.app.locals.db;
   const projectId = req.params.id;
@@ -99,12 +97,11 @@ const deleteProject = async (req, res) => {
   res.send(result);
 };
 
-// update project
 const updateProject = async (req, res) => {
   const db = req.app.locals.db;
   const projectId = req.params.id;
   const project = req.body;
-  // console.log(project);
+
   const {
     addTeam,
     removeTeam,
@@ -118,17 +115,13 @@ const updateProject = async (req, res) => {
     pname,
     favorite,
     pallmembers,
-    addMember
+    addMember,
   } = project;
 
   let updateFields = {
     $set: {},
   };
 
-  // console.log("pi c", projectId);
-  // console.log("pi c", addMember);
-
-  // Conditionally update fields using $set
   if (pname) updateFields.$set.pname = pname;
   if (pdes) updateFields.$set.pdes = pdes;
   if (pimg) updateFields.$set.pimg = pimg;
@@ -142,23 +135,21 @@ const updateProject = async (req, res) => {
     updateFields.$set.favorite = favorite;
   }
 
-  // Add or remove team members if applicable
   if (addTeam) {
     if (!updateFields.$addToSet) updateFields.$addToSet = {};
-    updateFields.$addToSet.pteams = addTeam; // Adds the team if not already in the array
+    updateFields.$addToSet.pteams = addTeam;
   }
 
   if (addMember) {
-    updateFields.$addToSet = { pallmembers: addMember }; // Adds the member if not already in the array
+    updateFields.$addToSet = { pallmembers: addMember };
   }
 
   if (removeTeam) {
     if (!updateFields.$pull) updateFields.$pull = {};
-    updateFields.$pull.pteams = removeTeam; // Removes the team from the array
+    updateFields.$pull.pteams = removeTeam;
   }
 
   try {
-    // console.log(projectId);
     const result = await updateProjects(
       db,
       { _id: new ObjectId(projectId) },
@@ -166,16 +157,18 @@ const updateProject = async (req, res) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ message: 'Project not found' });
+      return res.status(404).send({ message: "Project not found" });
     }
 
     if (result.modifiedCount === 0) {
-      return res.status(400).send({ message: 'No changes made or data already exists' });
+      return res
+        .status(400)
+        .send({ message: "No changes made or data already exists" });
     }
 
     res.send(result);
   } catch (error) {
-    res.status(500).send({ message: 'Error updating project', error });
+    res.status(500).send({ message: "Error updating project", error });
   }
 };
 
@@ -186,5 +179,5 @@ module.exports = {
   getsingleProject,
   updateProject,
   getMyProjects,
-  getProjectMembers
+  getProjectMembers,
 };
