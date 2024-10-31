@@ -21,6 +21,7 @@ const paymentRoute = require("./routes/paymentRoute");
 const webhookRoute = require("./routes/webhokRoute");
 const noteRoutes = require("./routes/noteRoutes");
 const docRoutes = require("./routes/docRoute");
+const faqRoutes = require("./routes/faqRoutes");
 
 const app = express();
 const server = http.createServer(app);
@@ -65,6 +66,7 @@ connectToDatabase()
     app.use("/note", noteRoutes);
     app.use("/document", docRoutes);
     app.use("/webhook", webhookRoute);
+    app.use("/faq", faqRoutes);
 
     app.get("/", (req, res) => {
       res.send("Babel Server Is Running...");
