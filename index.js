@@ -21,6 +21,7 @@ const paymentRoute = require("./routes/paymentRoute");
 const webhookRoute = require("./routes/webhokRoute");
 const noteRoutes = require("./routes/noteRoutes");
 const docRoutes = require("./routes/docRoute");
+const VerifyRoutes = require("./routes/verifyRoute");
 
 const app = express();
 const server = http.createServer(app);
@@ -35,6 +36,8 @@ const corsOptions = {
     "http://localhost:3001",
     "https://babel-forge.vercel.app",
     "https://babel-forge-project.vercel.app",
+    "https://ecce-103-159-186-217.ngrok-free.app",
+    "https://testomg-babe.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -65,6 +68,7 @@ connectToDatabase()
     app.use("/note", noteRoutes);
     app.use("/document", docRoutes);
     app.use("/webhook", webhookRoute);
+    app.use("/api", VerifyRoutes);
 
     app.get("/", (req, res) => {
       res.send("Babel Server Is Running...");
