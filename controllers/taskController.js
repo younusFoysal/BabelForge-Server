@@ -27,7 +27,6 @@ const getTaskDetails = async (req, res) => {
 };
 
 // Get my tasks
-
 const getMyTasks = async (req, res) => {
   const db = req.app.locals.db;
   const tasksCollection = getTasksCollection(db);
@@ -119,9 +118,44 @@ const deleteTask = async (req, res) => {
   const db = req.app.locals.db;
   const taskId = req.params.id;
   const tasksCollection = getTasksCollection(db);
-
   const result = await tasksCollection.deleteOne({ _id: new ObjectId(taskId) });
   res.send(result);
 };
 
-module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks, getEvents };
+// Delete a comment
+const deleteComment = async (req, res) => {
+  const db = req.app.locals.db;
+  const taskID = req.query.taskID;
+  const commentID = req.query.commentID;
+  if (!taskID || !commentID) {
+    return res.status(400).send({ message: 'Task ID and Comment ID are required.' });
+  }
+
+  const tasksCollection = getTasksCollection(db);
+  const result = await tasksCollection.updateOne(
+    { _id: new ObjectId(taskID) },
+    {
+      $pull: {
+        tcomments: { _id: commentID },
+      },
+    }
+  );
+  console.log(taskID, commentID);
+  res.send(result);
+};
+
+// Add Comment
+const addComment = async (req, res) => {
+  const db = req.app.locals.db;
+  const taskId = req.params.id;
+  const comment = req.body;
+  const tasksCollection = getTasksCollection(db);
+  try {
+    const result = await tasksCollection.updateOne({ _id: new ObjectId(taskId) }, { $push: { tcomments: comment } });
+    res.send(result);
+  } catch (error) {
+    return res.status(500).send({ message: 'Error adding comment' });
+  }
+};
+
+module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks, getEvents, addComment, deleteComment };
