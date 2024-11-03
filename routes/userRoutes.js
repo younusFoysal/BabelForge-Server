@@ -1,25 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken, verifyAdmin, verifyHost } = require("../middleware/auth");
+
 const {
-  createJwtToken,
-  logout,
-  createPaymentIntent,
-  addUser,
   updateUserProfile,
   getUser,
   getAllUsers,
   UpdatePackage,
 } = require("../controllers/userController");
+const { verifyToken } = require("../middleware/auth");
 
-router.post("/jwt", createJwtToken);
-router.get("/logout", logout);
-router.post("/create-payment-intent", verifyToken, createPaymentIntent);
-router.post("/users/add", addUser);
-router.put("/user", updateUserProfile);
-router.get("/user/:email", getUser);
-router.get("/users", getAllUsers);
-router.patch("/users/update/:email", updateUserProfile);
-router.put("/users/update/:email", UpdatePackage);
+router.put("/user", verifyToken, updateUserProfile);
+router.get("/user/:email", verifyToken, getUser);
+router.get("/users", verifyToken, getAllUsers);
+router.patch("/users/update/:email", verifyToken, updateUserProfile);
+router.put("/users/update/:email", verifyToken, UpdatePackage);
 
 module.exports = router;
