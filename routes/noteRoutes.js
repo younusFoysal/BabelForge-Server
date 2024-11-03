@@ -9,7 +9,7 @@ router.get('/notes', getAllNotes);
 // Get my notes
 router.get('/notes/my-notes/:email', getMyNotes);
 
-// Create a note
+// Create a Mote
 router.post('/notes', createNote);
 
 // Update a note
