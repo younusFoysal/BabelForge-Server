@@ -50,7 +50,7 @@ app.use(cookieParser());
 connectToDatabase()
   .then((db) => {
     app.locals.db = db;
-    console.log("Connected to MongoDB");
+    console.log("Connected To MongoDB");
 
     app.use("/api", userRoutes);
     app.use("/task", taskRoutes);
@@ -78,7 +78,7 @@ connectToDatabase()
 
     // Start server
     server.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`Server is Running on port ${port}`);
     });
   })
   .catch((err) => console.error("Error connecting to MongoDB", err));

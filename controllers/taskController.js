@@ -3,54 +3,50 @@ const { ObjectId } = require('mongodb');
 
 // Get all tasks
 const getAllTasks = async (req, res) => {
-    const db = req.app.locals.db;
-    const tasksCollection = getTasksCollection(db);
-    const tasks = await tasksCollection.find().toArray();
-    res.send(tasks);
+  const db = req.app.locals.db;
+  const tasksCollection = getTasksCollection(db);
+  const tasks = await tasksCollection.find().toArray();
+  res.send(tasks);
 };
 
 // Get task details by ID
 const getTaskDetails = async (req, res) => {
-    const db = req.app.locals.db;
-    const tasksCollection = getTasksCollection(db);
-    const taskId = req.params.id;
+  const db = req.app.locals.db;
+  const tasksCollection = getTasksCollection(db);
+  const taskId = req.params.id;
 
-    try {
-        const task = await tasksCollection.findOne({ _id: new ObjectId(taskId) });
-        if (!task) {
-            return res.status(404).send({ message: 'Task not found' });
-        }
-        res.send(task);
-    } catch (error) {
-        return res.status(400).send({ message: 'Invalid Task ID format' });
+  try {
+    const task = await tasksCollection.findOne({ _id: new ObjectId(taskId) });
+    if (!task) {
+      return res.status(404).send({ message: 'Task not found' });
     }
+    res.send(task);
+  } catch (error) {
+    return res.status(400).send({ message: 'Invalid Task ID format' });
+  }
 };
 
 // Get my tasks
-
 const getMyTasks = async (req, res) => {
-    const db = req.app.locals.db;
-    const tasksCollection = getTasksCollection(db);
-    const email = req.params.email;
-    const query = {
-        $or: [
-            { author: email },
-            { tassignTo: email }
-        ]
-    }
+  const db = req.app.locals.db;
+  const tasksCollection = getTasksCollection(db);
+  const email = req.params.email;
+  const query = {
+    $or: [{ author: email }, { tassignTo: email }],
+  };
 
-    try {
-        const result = await tasksCollection.find(query).toArray();
+  try {
+    const result = await tasksCollection.find(query).toArray();
 
-        if (result.length === 0) {
-            return res.status(404).send({ message: 'No tasks found for the given email' });
-        }
-        // console.log(result);
-        res.send(result);
-    } catch (error) {
-        return res.status(500).send({ message: 'Error retrieving tasks' });
+    if (result.length === 0) {
+      return res.status(404).send({ message: 'No tasks found for the given email' });
     }
-}
+    // console.log(result);
+    res.send(result);
+  } catch (error) {
+    return res.status(500).send({ message: 'Error retrieving tasks' });
+  }
+};
 
 // Helper function to convert the date and time
 // function convertToDateTime(dateStr, timeStr) {
@@ -67,67 +63,99 @@ const getMyTasks = async (req, res) => {
 
 // Get tasks for calendar event
 const getEvents = async (req, res) => {
-    const db = req.app.locals.db;
-    const tasksCollection = getTasksCollection(db);
-    const email = req.params.email;
-    const query = {
-        $or: [
-            { author: email },
-            { tassignTo: email }
-        ]
-    }
+  const db = req.app.locals.db;
+  const tasksCollection = getTasksCollection(db);
+  const email = req.params.email;
+  const query = {
+    $or: [{ author: email }, { tassignTo: email }],
+  };
 
-    try {
-        const result = await tasksCollection.find(query).toArray();
+  try {
+    const result = await tasksCollection.find(query).toArray();
 
-        if (result.length === 0) {
-            return res.status(404).send({ message: 'No tasks found for the given email' });
-        }
-        // console.log("events: ", result);
-        const events = result.map(task => ({
-            title: task?.tname,
-            start: task?.tdate,
-            end: task?.tdate,
-            description: task?.tdes,
-            status: task?.tproces,
-            author: task?.author,
-            allDay: true,
-        }));
-        res.send(events);
-    } catch (error) {
-        return res.status(500).send({ message: 'Error retrieving tasks' });
+    if (result.length === 0) {
+      return res.status(404).send({ message: 'No tasks found for the given email' });
     }
-}
+    // console.log("events: ", result);
+    const events = result.map(task => ({
+      title: task?.tname,
+      start: task?.tdate,
+      end: task?.tdate,
+      description: task?.tdes,
+      status: task?.tproces,
+      author: task?.author,
+      allDay: true,
+    }));
+    res.send(events);
+  } catch (error) {
+    return res.status(500).send({ message: 'Error retrieving tasks' });
+  }
+};
 
 // Add a new task
 const addTask = async (req, res) => {
-    const db = req.app.locals.db;
-    const task = req.body;
-    const tasksCollection = getTasksCollection(db);
+  const db = req.app.locals.db;
+  const task = req.body;
+  const tasksCollection = getTasksCollection(db);
 
-    const result = await tasksCollection.insertOne(task);
-    res.status(201).send(result);
+  const result = await tasksCollection.insertOne(task);
+  res.status(201).send(result);
 };
 
 // Update a task
 const updateTask = async (req, res) => {
-    const db = req.app.locals.db;
-    const taskId = req.params.id;
-    const updatedTask = req.body;
-    const tasksCollection = getTasksCollection(db);
+  const db = req.app.locals.db;
+  const taskId = req.params.id;
+  const updatedTask = req.body;
+  const tasksCollection = getTasksCollection(db);
 
-    const result = await tasksCollection.updateOne({ _id: new ObjectId(taskId) }, { $set: updatedTask });
-    res.send(result);
+  const result = await tasksCollection.updateOne({ _id: new ObjectId(taskId) }, { $set: updatedTask });
+  res.send(result);
 };
 
 // Delete a task
 const deleteTask = async (req, res) => {
-    const db = req.app.locals.db;
-    const taskId = req.params.id;
-    const tasksCollection = getTasksCollection(db);
-
-    const result = await tasksCollection.deleteOne({ _id: new ObjectId(taskId) });
-    res.send(result);
+  const db = req.app.locals.db;
+  const taskId = req.params.id;
+  const tasksCollection = getTasksCollection(db);
+  const result = await tasksCollection.deleteOne({ _id: new ObjectId(taskId) });
+  res.send(result);
 };
 
-module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks, getEvents };
+// Delete a comment
+const deleteComment = async (req, res) => {
+  const db = req.app.locals.db;
+  const taskID = req.query.taskID;
+  const commentID = req.query.commentID;
+  if (!taskID || !commentID) {
+    return res.status(400).send({ message: 'Task ID and Comment ID are required.' });
+  }
+
+  const tasksCollection = getTasksCollection(db);
+  const result = await tasksCollection.updateOne(
+    { _id: new ObjectId(taskID) },
+    {
+      $pull: {
+        tcomments: { _id: commentID },
+      },
+    }
+  );
+  console.log(taskID, commentID);
+  res.send(result);
+};
+
+// Add Comment
+const addComment = async (req, res) => {
+  const db = req.app.locals.db;
+  const taskId = req.params.id;
+  const comment = req.body;
+  const tasksCollection = getTasksCollection(db);
+  try {
+    const result = await tasksCollection.updateOne({ _id: new ObjectId(taskId) }, { $push: { tcomments: comment } });
+    res.send(result);
+  } catch (error) {
+    return res.status(500).send({ message: 'Error adding comment' });
+  }
+};
+
+module.exports = { getAllTasks, getTaskDetails, addTask, updateTask, deleteTask, getMyTasks, getEvents, addComment, deleteComment };

@@ -9,6 +9,8 @@ const {
   deleteTask,
   getMyTasks,
   getEvents,
+  addComment,
+  deleteComment,
 } = require("../controllers/taskController");
 
 // Get all tasks
@@ -28,6 +30,12 @@ router.post("/tasks/add", addTask);
 
 // Update a task
 router.patch("/tasks/update/:id", verifyToken, updateTask);
+
+// Add Comment
+router.patch("/tasks/add/comment/:id", addComment);
+
+// Delete Comment
+router.delete("/tasks/comments", deleteComment);
 
 // Delete a task
 router.delete("/tasks/delete/:id", verifyToken, deleteTask);
