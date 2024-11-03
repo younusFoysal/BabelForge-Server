@@ -11,7 +11,6 @@ const {
 const { getProjectsCollection } = require("../models/projectModel");
 const { getUsersCollection } = require("../models/userModel");
 
-// add new project
 const addPoject = async (req, res) => {
   const db = req.app.locals.db;
   const projects = req.body;
@@ -19,11 +18,9 @@ const addPoject = async (req, res) => {
   res.send(result);
 };
 
-// get all projects and search projects
 const getProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, category, email } = req.query;
-  // console.log(name.length, category.length, email.length);
 
   let result;
   if (name?.length && category?.length) {
@@ -38,11 +35,10 @@ const getProjects = async (req, res) => {
   res.send(result);
 };
 
-// Get all the projects i am in.
 const getMyProjects = async (req, res) => {
   const db = req.app.locals.db;
   const { name, email } = req.query;
-  // console.log(name, email);
+
   let query = {};
 
   if (name?.length) {
@@ -59,7 +55,6 @@ const getMyProjects = async (req, res) => {
   res.send(result);
 };
 
-// single project api
 const getsingleProject = async (req, res) => {
   const db = req.app.locals.db;
   const id = req.params.id;

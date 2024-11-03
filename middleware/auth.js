@@ -1,37 +1,28 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-    const token = req.cookies?.token;
-    if (!token) {
-        return res.status(401).send({ message: 'unauthorized access' });
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({ message: 'unauthorized access' });
-        }
-        req.user = decoded;
-        next();
+  if (!req.headers.authorization) {
+    return res.status(401).send({
+      message: "unauthorized access you cannot provide valid information",
     });
-};
+  }
+  const token = req.headers.authorization.split(" ")[1];
 
-const verifyAdmin = async (req, res, next) => {
-    const user = req.user;
-    const usersCollection = req.app.locals.db.collection('users');
-    const result = await usersCollection.findOne({ email: user?.email });
-    if (!result || result?.role !== 'admin') {
-        return res.status(401).send({ message: 'unauthorized access' });
+  if (!token) {
+    return res
+      .status(401)
+      .send({ message: "unauthorized access token cannot find" });
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      return res
+        .status(401)
+        .send({ message: "unauthorized access token not veryfied" });
     }
+    req.user = decoded;
     next();
+  });
 };
 
-const verifyHost = async (req, res, next) => {
-    const user = req.user;
-    const usersCollection = req.app.locals.db.collection('users');
-    const result = await usersCollection.findOne({ email: user?.email });
-    if (!result || result?.role !== 'host') {
-        return res.status(401).send({ message: 'unauthorized access' });
-    }
-    next();
-};
-
-module.exports = { verifyToken, verifyAdmin, verifyHost };
+module.exports = { verifyToken };

@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   addPoject,
@@ -8,23 +8,21 @@ const {
   getsingleProject,
   getMyProjects,
   getProjectMembers,
-} = require('../controllers/projectController');
+} = require("../controllers/projectController");
+const { verifyToken } = require("../middleware/auth");
 
-router.post('/projects', addPoject);
+router.post("/projects", addPoject);
 
-// Get all projects GET /api/projects
-router.get('/projects', getProjects);
+router.get("/projects", verifyToken, getProjects);
 
-router.get('/projects/single/:id', getsingleProject);
+router.get("/projects/single/:id", verifyToken, getsingleProject);
 
-// Get project members
-router.get('/projects/members/:id', getProjectMembers);
+router.get("/projects/members/:id", verifyToken, getProjectMembers);
 
-router.get('/projects/my-projects', getMyProjects);
+router.get("/projects/my-projects", verifyToken, getMyProjects);
 
-router.delete('/projects/:id', deleteProject);
+router.delete("/projects/:id", verifyToken, deleteProject);
 
-// projects Update Api
-router.patch('/projects/update/:id', updateProject);
+router.patch("/projects/update/:id", verifyToken, updateProject);
 
 module.exports = router;

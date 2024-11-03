@@ -1,8 +1,8 @@
 const express = require("express");
-const { getwebHook } = require("../controllers/webController");
+const { jwtdocs } = require("../controllers/jwtController");
 
 const router = express.Router();
 
-router.post("/clerk", getwebHook);
+router.post("/jwttoken", jwtdocs);
 
 module.exports = router;
