@@ -7,11 +7,12 @@ const {
   getAllUsers,
   UpdatePackage,
 } = require("../controllers/userController");
+const { verifyToken } = require("../middleware/auth");
 
-router.put("/user", updateUserProfile);
-router.get("/user/:email", getUser);
-router.get("/users", getAllUsers);
-router.patch("/users/update/:email", updateUserProfile);
-router.put("/users/update/:email", UpdatePackage);
+router.put("/user", verifyToken, updateUserProfile);
+router.get("/user/:email", verifyToken, getUser);
+router.get("/users", verifyToken, getAllUsers);
+router.patch("/users/update/:email", verifyToken, updateUserProfile);
+router.put("/users/update/:email", verifyToken, UpdatePackage);
 
 module.exports = router;

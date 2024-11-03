@@ -20,10 +20,10 @@ router.get("/teams", verifyToken, getAllTeams);
 router.get("/teams/my-teams/:email", verifyToken, getMyTeams);
 
 // Get that one specific team from your teams.
-router.get("/teams/one-team/:id", getOneTeam);
+router.get("/teams/one-team/:id", verifyToken, getOneTeam);
 
 // Get teams under a project
-router.get("/teams/of-project/:id", getTeamsOfProject);
+router.get("/teams/of-project/:id", verifyToken, getTeamsOfProject);
 
 // Create a team
 router.post("/teams", createTeam);
@@ -32,6 +32,6 @@ router.post("/teams", createTeam);
 router.patch("/teams/:id", verifyToken, updateTeam);
 
 // Delete team
-router.delete("/teams/:id", deleteTeam);
+router.delete("/teams/:id", verifyToken, deleteTeam);
 
 module.exports = router;

@@ -16,12 +16,12 @@ router.post("/projects", addPoject);
 // Get all projects GET /api/projects
 router.get("/projects", verifyToken, getProjects);
 
-router.get("/projects/single/:id", getsingleProject);
+router.get("/projects/single/:id", verifyToken, getsingleProject);
 
 // Get project members
-router.get("/projects/members/:id", getProjectMembers);
+router.get("/projects/members/:id", verifyToken, getProjectMembers);
 
-router.get("/projects/my-projects", getMyProjects);
+router.get("/projects/my-projects", verifyToken, getMyProjects);
 
 router.delete("/projects/:id", verifyToken, deleteProject);
 

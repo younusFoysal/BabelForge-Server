@@ -21,7 +21,7 @@ router.get("/tasks/:id", getTaskDetails);
 router.get("/tasks/my-tasks/:email", verifyToken, getMyTasks);
 
 // Get tasks for calendar events
-router.get("/events/:email", getEvents);
+router.get("/events/:email", verifyToken, getEvents);
 
 // Add a new task
 router.post("/tasks/add", addTask);
